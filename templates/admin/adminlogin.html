@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>adminlogin</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+  
+  <div class='container' style="margin-top: 50px;">
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      {{message}}
+      </div>
+    {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<div class="row d-flex justify-content-center" style="margin-top: 100px;">
+		<div class="col-sm-4 shadow p-3 mb-5 bg-white rounded">
+			<h3 align="center">AdminLogin</h3>
+	<form method="post" style="margin: 20px">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="username">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+  </div>
+  
+  <br>
+  <button type="submit" class="btn btn-primary">Login</button>
+
+  
+</form>
+</div>
+</div>
+
+<button type="button" id="Wrongpassword" class="btn btn-danger" data-toggle="modal" data-target="#WrongPasswordMessage" hidden>Remove</button>
+<div class="modal fade" id="WrongPasswordMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Wrong Credential</h5>
+      </div>
+      
+    </div>
+  </div>
+</div>
+{% if elem =='WP'  %}
+  <script type="text/javascript">
+    function ProductAlreadyMessage(){
+      var btn=document.getElementById('Wrongpassword');
+      btn.click()
+    }
+    ProductAlreadyMessage();
+
+  </script>
+ {% endif %}
+
+</body>
+</html>

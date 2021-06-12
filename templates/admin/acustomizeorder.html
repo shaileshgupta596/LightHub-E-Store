@@ -1,0 +1,123 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+<div class="row">
+  <table class="table shadow " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="7" >Customized Order Request List <img src="../static/images/list.png" style="width:50px;height: 50px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Name</th>
+      <th scope="col">Info</th>
+      <th scope="col">Time</th>
+      <th scope="col">Status</th>
+      <th scope="col">Remove</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;" id="Completedorderstable">
+  	{% for request in requests %}
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <th style="font-weight: bolder;font-size: 15px">Mr/Mrs. {{request[1]}}</th>
+      <td><button type="button" queryinfo="{{request[0]}}" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="filldetails(this)"><b>Information/Reply</b></button></td>
+      <td> {{request[8]}}</td>
+
+
+      {% if request[7] != "Reply Pending" %}
+      <td style="color: green"><b>{{request[7]}}<b></td>
+      {% else %}
+      <td style="color: red"><b>{{request[7]}}<b></td>
+      {% endif %}
+
+
+      {% if request[7] != "Reply Pending" %} 
+      <td>
+      	<form method="post">
+      	<input type="text" name="deleteorder" hidden value='{{request[0]}}'>
+      	<button type="submit" class="btn btn-danger btn-sm"><b>Remove</b></button>
+      	</form>
+     </td>
+
+      {% else %}
+      <td><button type="button" class="btn btn-danger btn-sm" disabled><b>Remove</b></button></td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+    
+  </tbody>
+</table>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Customize Product Query</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body">
+       	<table class="table table-bordered">
+       		<tbody id="individualcostomizequerydetail">
+        <tr><th>Name: shailesh gupta</th><th>status : Reply pending</th></tr><tr><th>Contact No: </th><th>Email:</th></tr>
+        <tr><th>Time: 24 jan 2018</th><th>Product Type: others</th></tr>
+        
+        <tr><td align="center"><img src="../static/images/balcony1.jpg" width="280" height="200"></td><td>Description</td></tr>
+        
+      </tbody>
+       	</table>
+       </div>
+       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <form action="{{url_for('reply_done')}}" method="post">
+        	<input type="text" name="queryid" id="reply_done" hidden>
+        	<button type="submit" class="btn btn-primary" id="reply_done_btn"><b>Reply Done</b></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	function filldetails(x){
+		var value=x.getAttribute('queryinfo');
+		$.post(url+"infoofIndividualcostomizedquery",{queryid:value},
+                
+                function(response){
+                  
+                  //check if what response is 
+                  console.log(response);
+                  if (response['Info'][7] == "Reply Pending"){
+                  document.getElementById('individualcostomizequerydetail').innerHTML='<tr><th>Name: '+response['Info'][1]+'</th><th>status :<b style="color:red"> '+response['Info'][7]+'</b></th></tr><tr><th>Contact No:'+response['Info'][3]+'</th><th>Email:'+response['Info'][2]+'</th></tr><tr><th>Time:'+response['Info'][8]+'</th><th>Product Type: '+response['Info'][4]+'</th></tr><tr><td align="center"><img src="'+response['Info'][6]+'" width="280" height="200"></td><td><b>Description<b> <br>'+response['Info'][5]+'</td></tr>';
+              	}
+              	else{
+              		document.getElementById('individualcostomizequerydetail').innerHTML='<tr><th>Name: '+response['Info'][1]+'</th><th>status :<b style="color:green"> '+response['Info'][7]+'</b></th></tr><tr><th>Contact No:'+response['Info'][3]+'</th><th>Email:'+response['Info'][2]+'</th></tr><tr><th>Time:'+response['Info'][8]+'</th><th>Product Type: '+response['Info'][4]+'</th></tr><tr><td align="center"><img src="'+response['Info'][6]+'" width="280" height="200"></td><td><b>Description<b> <br>'+response['Info'][5]+'</td></tr>';
+              	}
+                  
+                document.getElementById('reply_done').setAttribute('value',response['Info'][0]);
+
+                if(response['Info'][7] == "Reply Done"){
+                	document.getElementById('reply_done_btn').disabled=true;
+                	document.getElementById('reply_done_btn').hidden=true;
+                }
+                else{
+                	document.getElementById('reply_done_btn').disabled=false;
+                	document.getElementById('reply_done_btn').hidden=false;
+                }
+              },"json");
+         }
+		
+	
+</script>
+{% endblock %}

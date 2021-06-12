@@ -1,0 +1,43 @@
+CREATE TABLE lights (id INT AUTO_INCREMENT PRIMARY KEY, ProductId VARCHAR(255), ProductName VARCHAR(255),ProductType VARCHAR(25),
+ ProductWarranty VARCHAR(25), 
+ProductDescription VARCHAR(255), ProductPrice VARCHAR(16), ProductImageAddress VARCHAR(255),
+ProductImageAddress1 VARCHAR(255), ProductType1 VARCHAR(50) , ProductBrand VARCHAR(50),added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,Discount Float, Discountprice INT);
+
+
+
+CREATE TABLE AssociatePartner (id INT AUTO_INCREMENT PRIMARY KEY,EnterpriseName VARCHAR(50),OwnerName VARCHAR(50),Contact1 VARCHAR(50),
+Contact2 VARCHAR(50),Contact3 VARCHAR(50),Address VARCHAR(255),added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+
+CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY,CustomerId VARCHAR(50),username VARCHAR(50),password VARCHAR(50),
+PhoneNumber VARCHAR(50),Address VARCHAR(255),reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+
+CREATE TABLE watchlist (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),ProductId VARCHAR(50));
+
+CREATE TABLE orderinfotable (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),
+OrderID VARCHAR(50),OrderConf VARCHAR(50),OrderPacked VARCHAR(10),
+OrderDispatch Varchar(50),Deliverd VARCHAR(10),order_date TIMESTAMP,OrderConfirmationTime TIMESTAMP);
+
+CREATE TABLE orderedproduct(id INT AUTO_INCREMENT PRIMARY KEY,
+OrderID VARCHAR(50),ProductId varchar(50),pcount INT,ProductName VARCHAR(50),ProductSpecification VARCHAR(50),ProductImage VARCHAR(50),ProductPrice VARCHAR(50),Discount Float, Discountprice INT);
+
+CREATE TABLE cancelordertable (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),
+OrderID VARCHAR(50),status VARCHAR(50), cancelby varchar(50),cancel_date TIMESTAMP,confirmation_time TIMESTAMP,time_difference varchar(50));
+
+CREATE TABLE customizeordertable (id INT AUTO_INCREMENT PRIMARY KEY,customername VARCHAR(50),
+email VARCHAR(50),phone_number VARCHAR(20),ProductType VARCHAR(50),Description LONGTEXT,ImageAddress VARCHAR(50),status VARCHAR(15),
+request_date TIMESTAMP);
+
+CREATE TABLE completeordertable (id INT AUTO_INCREMENT PRIMARY KEY,username VARCHAR(50),
+OrderID VARCHAR(50),status VARCHAR(50),order_date TIMESTAMP,delivery_date TIMESTAMP);
+
+LighthubVishalOwner@1999
+
+
+
+
+
+alter table cancelordertable drop COLUMN time_difference;
+alter table cancelordertable add confirmation_time TIMESTAMP;
+alter table cancelordertable add time_difference varchar(50);

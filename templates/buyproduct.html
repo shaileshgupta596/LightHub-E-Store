@@ -1,0 +1,195 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+ <!--Content -->
+{% if "LightHUb_User_ShoopingCart" in session %}
+
+<table class="table shadow " align="center" style="width:70%;text-align: center">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="6" >PRODUCTS SUMMERY & ADDRESS <img src="../static/images/list.png" style="width:50px;height: 50px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Item</th>
+      <th scope="col">ItemSpecification</th>
+      <th scope="col">Item Price</th>
+      <th scope="col">Item Count</th>
+      <!--<th scope="col">Item Remove</th>-->
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;">
+  	{% for key,elem in session['LightHUb_User_ShoopingCart'].items() %}
+  	{% if key != "tp" %}
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="{{elem['ProductImageAddress']}}" style="width:50px;height: 50px;border-radius: 50%"><br>
+      	 <b>{{elem['ProductName']}}</b>
+      </td>
+      <td>{{elem['ProductSpecification']}}<br>{{elem['ProductBrand']}}<br>{{elem['ProductType']}}</td>
+      <td style="font-weight: bold">Rs. <label style="font-size:11px;color:gray">
+        <s>{{elem['ProductPrice']}}</s></label>
+        <label>{{elem['DiscountPrice']}}</label>
+        <br>
+        <p style="font-size:12px"><span style="color:orange">({{elem['DiscountRate']}}%)</span>
+        <span style="color:green"> Save Rs.{{elem['ProductPrice']-elem['DiscountPrice']}}</span> </p>
+      </td>
+      <td>{{elem['Count']}}</td>
+      <!--<td><a href="{{url_for('delete_cart_product',ProductId=key)}}"><img src="static/images/delete.png" align="center" class="d-flex justify-content-end" style="width:40px;height: 40px;border-radius:50%;"><b>Delete</b></a>
+      </td>-->
+      <td><b>Rs.{{ elem['Count'] * elem['DiscountPrice']}} .00</b>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    <hr>
+    <tr>
+    	<td colspan="4"></td>
+    	<td><b>Final Amount :  Rs.{{session['LightHUb_User_ShoopingCart']['tp']}}.00 </b></td>
+    </tr>
+
+    <tr style="text-align: center" >
+  						<th colspan="6" style="font-size: 20px"><b>Address</b></th>					
+  					</tr>
+  					<tr>
+  						<td colspan="3"><b>Room No/Building</b></td>
+  						<td colspan="3" id="uadd1" >Not Updated</td>
+  					</tr>
+  					<tr>
+  						<td colspan="3"><b>Locality/Area/Road</b></td>
+  						<td colspan="3" id="uadd2">Not Updated</td>
+  					</tr>
+  					<tr>
+  						<td colspan="3"><b>City/Village Name</b></td>
+  						<td colspan="3" id="uadd3">Not Updated</td>
+  					</tr>
+  					<tr>
+  						<td colspan="3"><b>District</b></td>
+  						<td colspan="3" id="uadd4">Not Updated</td>
+  					</tr>
+  					<tr>
+  						<td colspan="3"><b>State/Pincode</b></td>
+  						<td colspan="3" id="uadd5">Not Updated</td>
+  					</tr>
+  					<tr>
+  						<td colspan="6">
+  							<a href="{{url_for('customerprofile')}}"><button type="button" class="btn btn-danger"><b>Update Address</b></button></a>
+  						</td>
+  					</tr>
+   
+    <tr align="center">
+    	<td colspan="6">
+    		<button class="btn btn-primary btn-lg" id="place_product"  data-toggle="modal" data-target="#exampleModalCenter"><b> Next</b></button>
+    	</td>
+    </tr>
+  </tbody>
+</table>
+<button class="btn btn-primary btn-lg" id="next" hidden data-toggle="modal" data-target="#exampleModalCenter1"></button>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirm Products</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Are you Sure you want to Confirm? </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><b>Close</b></button>
+        <a href="{{url_for('placeorder')}}"><button type="button" class="btn btn-danger"><b>Confirm Details</b></button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Update Address</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Your Address need to be Updated for Placing Product.Please Update your Address.</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><b>Close</b></button>
+        <a href="{{url_for('customerprofile')}}"><button type="button" class="btn btn-danger"><b>update</b></button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	function ItemCount(x) {
+		// body...
+		//console.log(x.value);
+		  var url=localStorage.getItem("url");
+          $.post(url+"update_product_count_in_session",{pid:x.value,ProductId:x.getAttribute('number')},"json");
+          location.reload();
+          //console.log(document.getElementsByClassName('Count_of_an_Item')[0].value+document.getElementsByClassName('Count_of_an_Item')[1].value+document.getElementsByClassName('Count_of_an_Item')[2].value);
+	}
+	function address_work(){
+		var username="{{username}}"
+		console.log(username)
+	}
+	address_work();
+
+</script>
+<script type="text/javascript">
+          function SeeDetails(){
+            var url=localStorage.getItem("url");
+          console.log('kjebjbfw;jebf;lwbef;lw');
+          val1='{{username}}'
+          $.post(url+"get_individual_customer_detail",{username:val1},
+                
+                function(response){
+                  
+                  //check if what response is 
+                  console.log(response);
+                  address=response['Info']['Address']
+                  if (address == null){
+                  	document.getElementById('next').click();
+                  	document.getElementById('place_product').disabled = true;
+
+                  }
+                  else{
+                  address=address.split('@')
+                  //console.log(address)
+                  document.getElementById('uadd1').innerHTML=address[0];
+                  document.getElementById('uadd2').innerHTML=address[1];
+                  document.getElementById('uadd3').innerHTML=address[2];
+                  document.getElementById('uadd4').innerHTML=address[3];
+                  document.getElementById('uadd5').innerHTML=address[4];
+             	 }
+
+                  document.getElementById('customername').innerHTML=response['Info']['CustomerName'];
+                  document.getElementById('email').innerHTML=response['Info']['Username'];
+                  document.getElementById('phonenumber').innerHTML=response['Info']['PhoneNumber'];
+                  document.getElementById('place_product').disabled = false;
+                  
+                  
+                  
+
+                 
+                  
+          
+              },"json");
+
+        }
+        SeeDetails();
+    </script>
+{% endif %}
+{% endblock %}

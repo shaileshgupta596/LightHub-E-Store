@@ -1,0 +1,423 @@
+ {% extends "admin/admincontrolnav.html" %}
+{% block body%}
+<style type="text/css">
+  table{
+    font-size:12px;
+  }
+</style>
+
+<div class="row ">
+  <div class="col-sm-2 shadow-sm p-3 mb-5 bg-white rounded">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    	<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+      <a class="nav-link " id="v-pills-prisechange-tab" data-toggle="pill" href="#v-pills-prisechange" role="tab" aria-controls="v-pills-prisechange" aria-selected="false">Price Change</a>
+      <a class="nav-link" id="v-pills-productname-tab" data-toggle="pill" href="#v-pills-productname" role="tab" aria-controls="v-pills-productname" aria-selected="false">ProductName</a>
+      <a class="nav-link" id="v-pills-producttype-tab" data-toggle="pill" href="#v-pills-producttype" role="tab" aria-controls="v-pills-producttype" aria-selected="false">ProductType</a>
+      <a class="nav-link" id="v-pills-Productfor-tab" data-toggle="pill" href="#v-pills-Productfor" role="tab" aria-controls="v-pills-Productfor" aria-selected="false">Product For</a>
+      <a class="nav-link" id="v-pills-brand-tab" data-toggle="pill" href="#v-pills-brand" role="tab" aria-controls="v-pills-brand" aria-selected="false">Brand</a>
+      <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Product Specifcation</a>
+      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Product warranty</a>
+      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">ProductImage1</a>
+      <a class="nav-link" id="v-pills-pi1-tab" data-toggle="pill" href="#v-pills-pi1" role="tab" aria-controls="v-pills-pi1" aria-selected="false">ProductImage2</a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 " style="margin-top: 150px;" >
+    <div class="tab-content " id="v-pills-tabContent" >
+    	<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" >
+    		<h1 align="center">UPDATE DETAILS</h1>
+    	</div>
+
+<input type="number" class="hiddenpid" name="pid" id="hiddenpid"  value="2" hidden >
+
+
+
+      <div class="tab-pane fade " id="v-pills-prisechange" role="tabpanel" aria-labelledby="v-pills-prisechange-tab">
+      	<div class="row  d-flex justify-content-center" >
+                  
+                  <label for="ProductPrice" style="font-size: 20px;">Enter Updated Product Price</label><br>
+                  
+                   
+                  <input type="text" class="form-control form-control-sm" name="updatedprice" id="ProductPrice" placeholder="Updated Price"  required>
+                   <br>
+                   <br>
+                  <input type="text" class="form-control form-control-sm" name="dicountprice" id="DiscountPrice" placeholder="DiscountPrice"  required onkeyup ="checkdicountrate(this)">
+                  <label id="discountrate" align="center" style="font-weight: bolder"></label>
+                  <br><br>
+                  <button type="button" onclick="Update1()" class="btn btn-primary btn-lg" >Update</button>
+              
+              </div>
+              <div id="hiddenupdatealert1"></div>
+    
+             
+      </div>
+
+
+      <div class="tab-pane fade" id="v-pills-productname" role="tabpanel" aria-labelledby="v-pills-productname-tab">
+      	<div class="row  d-flex justify-content-center" >
+                  
+                  <label for="ProductName" style="font-size: 20px;">Enter Updated Product Name</label>
+    				<input type="text" class="form-control form-control-sm" id="ProductName" aria-describedby="emailHelp" name="ProductName" required>
+    				<br><br>
+                  <button type="button" onclick="Update2()" class="btn btn-primary btn-lg" >Update</button>
+           </div>  
+           <div id="hiddenupdatealert2"></div>   
+           
+      </div>
+
+
+      <div class="tab-pane fade" id="v-pills-producttype" role="tabpanel" aria-labelledby="v-pills-producttype-tab">
+      	<div class="row  justify-content-md-center" >
+      	
+                  
+                  <label for="ProductType" style="font-size: 20px;">Enter Updated Product Type</label>
+				    <select class="form-control form-control-sm" id="ProductType" name='ProductType'>
+				    <option selected disabled>Choose...</option>
+				    <option value="Commercial">Commercial</option>
+    				<option value="Decorative">Decorative</option>
+            <option value="Customized">Customized</option>
+				  </select>
+				  <br><br>
+				  <button type="button" onclick="Update3()" class="btn btn-primary btn-lg" >Update</button>
+            </div>  
+            <div id="hiddenupdatealert3"></div>
+
+               
+            
+      </div>
+
+
+      <div class="tab-pane fade" id="v-pills-Productfor" role="tabpanel" aria-labelledby="v-pills-Productfor-tab">
+      	<div class="row  justify-content-md-center" >
+                
+                  <label for="ProductType1" style="font-size: 20px;">Enter Updated Application Type</label>
+				    <select class="form-control form-control-sm" id="ProductType1" name='ProductType1'>
+				    <option selected disabled>Choose...</option>
+				    <option value="Wall">Wall </option>
+            <option value="Hanging">Hanging </option>
+            <option value="Ceiling">Ceiling </option>
+            <option value="Chandelier">Chandelier</option>
+            <option value="TableLamp">TableLamp</option>
+            <option value="Door">OutDoor</option>
+            <option value="Floor">Floor</option>
+            <option value="Mirror">Mirror</option>
+            <option value="Picture">Picture</option>
+
+				  </select>
+				  <br><br>
+				  <button type="button" onclick="Update4()" class="btn btn-primary btn-lg" >Update</button>
+		</div>
+		<div id="hiddenupdatealert4"></div>
+                
+      </div>
+
+
+      <div class="tab-pane fade" id="v-pills-brand" role="tabpanel" aria-labelledby="v-pills-brand-tab">
+      	<div class="row   justify-content-md-center" >
+                          
+                  <label for="ProductBrand" style="font-size: 20px;">Enter Updated Brand</label>
+				    <select class="form-control form-control-sm" id="ProductBrand" name='ProductBrand'>
+				    <option selected disabled>Choose Brand...</option>
+				    <option value="Syska">Syska</option>
+				    <option value="Philips">Philips</option>
+				    <option value="Eveready">Eveready</option>
+				    <option value="others">LightHub</option>
+
+  				</select>
+  				<br><br>
+  				 <button type="button" onclick="Update5()" class="btn btn-primary btn-lg" >Update</button>
+  			</div>
+  			<div id="hiddenupdatealert5"></div>
+               
+      </div>
+
+
+       <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+       	<div class="row  justify-content-md-center">
+      	
+                  
+                  <label for="ProductSpecification" style="font-size: 20px;">Enter Updated Product Specification</label>
+    				<input type="text" class="form-control form-control-sm" id="ProductSpecification" name="ProductSpecification" required>
+    				<br><br>
+  				 <button type="button" onclick="Update7()" class="btn btn-primary btn-lg" >Update</button>
+               
+            </div>
+            <div id="hiddenupdatealert6"></div>
+       </div>
+
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+      	<div class="row justify-content-md-center">
+      		<label for="ProductWarranty" style="font-size: 20px;">Enter Updated Product Warranty</label>
+			    <select class="form-control form-control-sm" id="ProductWarranty" name='ProductWarranty' required>
+			    <option value="1">No Warranty</option>
+			    <option value="2">One Year</option>
+			    <option value="3">Two Year</option>
+			  </select>
+			  <br><br>
+  			<button type="button" onclick="Update6()" class="btn btn-primary btn-lg" >Update</button>
+      	</div>
+      	<div id="hiddenupdatealert7"></div>
+      	
+      </div>
+
+
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+      	<div class="row justify-content-md-center">
+      		<label for="ProductImage" style="font-size: 20px;">Enter Updated Choose Image</label>
+          
+		  	 <div class="custom-file">
+		      <input type="file" class="custom-file-input" name="file" id="ProductImage" aria-describedby="inputGroupFileAddon01" onchange="showname()" required>
+		      <label class="custom-file-label" id="upimagename" for="inputGroupFile01">Choose file</label>
+		      <p id="selectatleast1"><p>
+		     </div>
+		     <br><br>
+  			<button type="button" onclick="Update8()"  class="btn btn-primary btn-lg" >Update</button>
+      
+      	</div>
+      	<div id="hiddenupdatealert8"></div>
+      </div>
+
+      <div class="tab-pane fade" id="v-pills-pi1" role="tabpanel" aria-labelledby="v-pills-pi1-tab">
+      	<div class="row justify-content-md-center">
+      		<label for="ProductImage1" style="font-size: 20px;">Enter Updated Choose Image</label>
+			     <div class="custom-file">
+			      <input type="file" class="custom-file-input" name="file1" id="ProductImage1" aria-describedby="inputGroupFileAddon01" onchange="showname1()">
+			      <label id="upimagename1" class="custom-file-label" for="ProductImage1">Choose file</label>
+            <p id="selectatleast"><p>
+			     </div>
+			     <br><br>
+  			<button type="button" onclick="Update9()" class="btn btn-primary btn-lg" >Update</button>
+      	</div>
+      	<div id="hiddenupdatealert9"></div>
+
+      
+      </div>
+    </div>
+  </div>
+  <div id="tabelcontent" class=" col-sm-4 shadow-sm p-3 mb-5 bg-white rounded" style="">       <!-- product details -->
+</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+	function hiddenalert(alert_box_name){
+		document.getElementById(alert_box_name).innerHTML='<br><div class="alert alert-success alert-dismissible"  role="alert" style="text-align: center"><button type="button" class="close" data-dismiss="alert"aria-label="Close"><spanaria-hidden="true">×</span></button>Information Updated Sucessfully</div>'
+
+		//document.getElementById('hiddenpid').setAttribute('value',2);
+		
+	}
+	
+</script>
+<script type="text/javascript">
+	function showname(){
+		var x = document.getElementById("ProductImage");
+		document.getElementById('upimagename').innerHTML=x.files[0].name;
+	}
+	function showname1(){
+		var x = document.getElementById("ProductImage1");
+		document.getElementById('upimagename1').innerHTML=x.files[0].name;
+	}
+</script>
+<script type="text/javascript">
+	function Update1(){
+
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          console.log(pid);
+          var ProductPrice =document.getElementById('ProductPrice').value;
+          var DiscountPrice=document.getElementById('DiscountPrice').value;
+        
+          
+         
+          $.post(url+"update_price",{pid:pid,updateddetails:ProductPrice,dprice:DiscountPrice},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert1");
+              },"json");
+
+        }
+        function Update2(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductName =document.getElementById('ProductName').value;
+          
+         
+          $.post(url+"update_name",{pid:pid,updateddetails:ProductName},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert2");
+              },"json");
+
+        }
+
+        function Update3(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductType =document.getElementById('ProductType').value;
+          
+         
+          $.post(url+"update_type",{pid:pid,updateddetails:ProductType},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert3");
+              },"json");
+
+        }
+
+        function Update4(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductType1 =document.getElementById('ProductType1').value;
+          
+         
+          $.post(url+"update_type1",{pid:pid,updateddetails:ProductType1},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert4");
+              },"json");
+
+        }
+
+        function Update5(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductBrand =document.getElementById('ProductBrand').value;
+          
+         
+          $.post(url+"update_brand",{pid:pid,updateddetails:ProductBrand},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert5");
+              },"json");
+
+        }
+
+        function Update6(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductWarranty =document.getElementById('ProductWarranty').value;
+          
+         
+          $.post(url+"update_warranty",{pid:pid,updateddetails:ProductWarranty},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert7");
+              },"json");
+
+        }
+       
+        function Update7(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductSpecification =document.getElementById('ProductSpecification').value;
+          
+         
+          $.post(url+"update_description",{pid:pid,updateddetails:ProductSpecification},
+                
+                function(response){
+         				hiddenalert("hiddenupdatealert6");
+              },"json");
+
+        }
+
+        function Update8(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductImage =document.getElementById('ProductImage');
+          
+         
+                   var form_data = new FormData();
+
+          if(ProductImage.files.length == 0){
+            document.getElementById('selectatleast1').innerHTML='<p style="color:red">select at least Onse</p>';
+            return;
+          }
+
+          form_data.append("file",ProductImage.files[0]);
+          form_data.append('pid',pid);
+          console.log(form_data)
+
+          $.post({
+            url: url+"update_image1",
+            dataType: 'json', // what to expect back from server
+            cache: false,
+            contentType: false,
+            processData: false,
+            data:form_data,
+            type: 'post',
+            success: function(result){
+                      hiddenalert("hiddenupdatealert8");
+                  }});
+
+
+        }
+
+
+        function Update9(){
+          var url=localStorage.getItem("url");
+          var pid='{{pid}}'
+          var ProductImage1 =document.getElementById('ProductImage1');
+          
+          var form_data = new FormData();
+
+          if(ProductImage1.files.length == 0){
+            document.getElementById('selectatleast').innerHTML='<p style="color:red">select at least Onse</p>';
+            return;
+          }
+          form_data.append("file1",ProductImage1.files[0]);
+          form_data.append('pid',pid)
+
+          $.post({
+            url: url+"update_image2",
+            dataType: 'json', // what to expect back from server
+            cache: false,
+            contentType: false,
+            processData: false,
+            data:form_data,
+            type: 'post',
+            success: function(result){
+                      hiddenalert("hiddenupdatealert9");
+                  }});
+
+        }
+</script>
+
+
+<script type="text/javascript">
+          function SeeDetails(){
+            var url=localStorage.getItem("url");
+          //var val=document.getElementById('hiddenpid').getAttribute('value');
+          var container=document.getElementById('tabelcontent');
+          val1='{{pid}}}'
+          $.post(url+"get_details_of_product",{pid:val1},
+                
+                function(response){
+                  
+                  //check if what response is 
+                  console.log(response);
+                  
+                  container.innerHTML='<div class="row justify-content-md-center"><img src=../../'+response['Info']['ProductImageAddress']+' width="100" height="100" style="margin:10px" ><img src=../../'+response['Info']['ProductImageAddress1']+' width="100" height="100" style="margin:10px" ></div><div class="row" ><table class="table table-bordered" cellpadding="2" id="table" style="text-align: center;"><thead><tr><th scope="col" colspan="3">Product Information</th></tr></thead><tbody><tr><td><b>Product ID</b></td><td id="ProductId">'+response['Info']['ProductId']+'</td></tr><tr><td><b>Product Name</b></td><td id="ProductName">'+response['Info']['ProductName']+'</td></tr><tr><td><b>Product Type</b></td><td id="ProductType">'+response['Info']['ProductType']+'</td></tr><tr><td><b>ProductFor</b></td><td id="ProductFor">'+response['Info']['ProductType1']+'</td></tr><tr><td><b>Product Brand</b></td><td id="ProductBrand">'+response['Info']['ProductBrand']+'</td></tr><tr><td><b>Product Warranty</b></td><td id="ProductWarranty">'+response['Info']['ProductWarranty']+'</td></tr><tr><td><b>Product Price/DiscountPrice/Rate</b></td><td id="ProductPrise">'+response['Info']['ProductPrise']+'INR/'+response['Info']['DiscountPrise']+'INR/'+response['Info']['DiscountRate']+'%</td></tr><tr><td><b>Product Added Date</b></td><td id="addeddate">'+response['Info']['addeddate']+'</td></tr><tr><td><b>Product Specification</b></td><td>'+response['Info']['ProductSpecification']+'</td></tr></tbody></table></div>'
+
+                 
+                  
+          
+              },"json");
+
+        }
+        SeeDetails();
+        
+</script>
+
+<script type="text/javascript">
+  function checkdicountrate(x){
+    var ProductPrice =document.getElementById('ProductPrice').value
+    var DiscountPrice=x.value;
+    DiscountRate=100-((DiscountPrice/ProductPrice)*100);
+    document.getElementById('discountrate').innerHTML=DiscountRate +"%";
+  }
+</script>
+
+
+{% endblock%}

@@ -1,0 +1,338 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+<style type="text/css">
+  label{
+    font-size: 12px;
+  }
+</style>
+
+<div class="row justify-content-md-center">
+  <h5 align="center">Product Management</h5>
+</div>
+<div class="row">
+<div class="col-sm input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="ProductType">Options</label>
+  </div>
+  <select class="custom-select" id="ProductType" onchange="LoadOption()">
+    <option selected value="All">All</option>
+    <option value="Commercial">Commercial</option>
+    <option value="Decorative">Decorative</option>
+    <option value="Customized">Customized</option>
+    
+  </select>
+</div>
+
+<div class="col-sm input-group mb-3">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="ProductType1">Options</label>
+  </div>
+  <select class="custom-select" id="ProductType1" onchange="LoadOption()">
+    <option selected>All</option>
+    <option value="Wall">Wall </option>
+    <option value="Hanging">Hanging </option>
+    <option value="Ceiling">Ceiling </option>
+    <option value="Chandelier">Chandelier</option>
+    <option value="TableLamp">TableLamp</option>
+    <option value="Door">OutDoor</option>
+    <option value="Floor">Floor</option>
+    <option value="Mirror">Mirror</option>
+    <option value="Picture">Picture</option>
+  </select>
+</div>    
+</div>
+     
+     
+
+
+<div class="row shadow justify-content-center" style="width: 100%">
+  <p align="center" align="center" id="numberofresult" style="margin-top: 10px;font-size: 20px"></p>
+
+  <div class="row" id="ProductList" style="margin-left: 10px;width: 100%">
+        <!-- Content Goes Here -->
+  </div>
+    
+<table cellpadding="15px" style="margin-top: 40px">
+  <tbody>
+    <tr>
+      <td><button class="btn btn-danger btn-sm" id="privious_btn"  onclick="pagechange(this)">&#8249;Privious</button></td>
+      <td><input type="text" id="pagecount" disabled value=1 style="width: 50px;height: 50px;text-align: center"></td>
+      <td><button class="btn btn-primary btn-sm" id="next_btn" onclick="pagechange(this)">Next&#8250;</button></td>
+    </tr>
+</tbody>
+</table>
+</div>
+  
+
+
+
+<div class="modal fade" id="SeeDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Product Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="tabelcontent">
+        <!-- product details -->
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>               
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="UpdateDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Update Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="tabelcontent">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary" >Update</button>--> 
+                     
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function LoadOption(){
+    var ProductType = document.getElementById('ProductType').value;
+    var ProductFor= document.getElementById('ProductType1').value;
+    LoadProduct(ProductType,ProductFor);
+  } 
+  
+</script>
+
+<script type="text/javascript">
+var product_filter_response
+var count=0;
+var start=0;
+var end=0;
+var page_count=0
+  function pagechange(btn){
+    var val=document.getElementById('pagecount').value
+    if (btn.getAttribute('id')=="privious_btn"){
+      val=Number(val)-1;
+      document.getElementById('pagecount').setAttribute('value',val);
+      pagechangeprocess(val);
+    }
+    else{
+      val=Number(val)+1;
+      document.getElementById('pagecount').setAttribute('value',val);
+      pagechangeprocess(val);
+    }
+
+  }
+
+  function pagechangeprocess(val){
+    console.log("Page Number -"+val)
+            if (val<=1){
+              /*boundary condition to avoid if there is one two page
+              for eg. if page_count=2 */
+              document.getElementById('privious_btn').disabled=true;
+              document.getElementById('next_btn').disabled=false;
+              start=0
+              end=12
+              
+            }
+            else if(val >=page_count){
+              start=val*12 -12
+              end=count
+              document.getElementById('next_btn').disabled=true;
+              document.getElementById('privious_btn').disabled=false;
+              
+            }
+            else{
+              start=val*12 -12
+              end=val*12
+              document.getElementById('next_btn').disabled=false;
+              document.getElementById('privious_btn').disabled=false;
+            }
+            
+         //console.log(start+ "-" + end)
+      insert_into_productfilter();
+
+  }
+
+  function privious_btn_funtion(){
+    if(Number(document.getElementById('pagecount').getAttribute('value')) == 1){
+      document.getElementById('privious_btn').disabled=true;
+    }
+  }
+privious_btn_funtion();
+
+function page_change_function(count1){
+
+      page_count=Math.ceil(count1/12);
+      //console.log("number of pages >"+ page_count)
+      if(page_count ==1){
+        start=0;
+        end=count
+        document.getElementById('next_btn').disabled=true;
+        document.getElementById('privious_btn').disabled=true;
+      }
+      else{
+        //if number of pages is not equal to 1 enable next button;
+        document.getElementById('next_btn').disabled=false;
+      }
+          
+}
+
+
+
+function insert_into_productfilter(){
+  var response=product_filter_response
+  var info="";
+  var save=0;
+  
+  var ProductList=document.getElementById('ProductList');
+  
+
+  if (response['Info'].length <1){
+    ProductList.innerHTML=info;
+    return 1;
+  }
+
+              for(var i=start;i<end;i++){
+              save=response['Info'][i]['ProductPrice']-response['Info'][i]['DiscountPrice']
+
+
+info=info+'<div class="col-sm-3 rounded " style="margin-top: 45px">\
+    <div class="Product_box shadow-sm" style="width:200px; ">\
+      <div class="product_image"><a href="#"><img src="../'+response['Info'][i]['ProductImageAddress']+'" class="shadow-sm" style="width:200px;height: 150px;"></a>\
+      </div>\
+        <div class="product_information shadow">\
+            <div class="row" style="">\
+                <div class="col-sm d-flex justify-content-center" style="font-size: 14px;margin-left:10px">\
+                  <p> <b>'+response['Info'][i]['ProductName']+'</b><br>'+response['Info'][i]['ProductType']+','+response['Info'][i]['ProductType1']+'<br>        <b>Rs.<s style="color:gray;font-size:10px">'+response['Info'][i]['ProductPrice']+' </s>'+response['Info'][i]['DiscountPrice']+'<br><lable style="color:orange;font-size:12px">('+response['Info'][i]['DiscountRate']+'%)<label style="color:green"> Save Rs.  '+save+'         </label></label></b>     </p>\
+                </div>\
+            </div>\
+            <div class="row">\
+                <div class="col-sm" style="height: 40px;margin:5px">\
+                  <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#SeeDetails" onclick="SeeDetails('+response['Info'][i]['id']+')" style="width:100%">Info</button>\
+                </div>\
+                <div class="col-sm" style="height: 40px;margin-right: 5px">\
+          <form method="post" action="{{url_for("update_detail_page_transfer")}}" ><input type="text" name="pid" value="'+response['Info'][i]['id']+'" hidden /><button type="submit" style="width:100%" class="btn btn-secondary btn-sm"  formtarget=”_blank”>Update</button></form>\
+                </div>\
+            </div>\
+        </div>\
+    </div></div>'
+                      }
+                      ProductList.innerHTML=info;
+}
+
+    function LoadProduct(ProductType,ProductFor){
+      var url=localStorage.getItem("url");
+    console.log(ProductType);
+
+      $.post(url+"get_LoadProduct",{option:ProductType,option1:ProductFor},
+                
+                function(response){
+                  document.getElementById('numberofresult').innerHTML=response['Info'].length+'   Result Found';
+                  //check if what response is 
+                  //console.log(response);
+
+                  //product page change part end
+                  product_filter_response=response;
+                  document.getElementById('pagecount').setAttribute('value','1');
+                  start=0;end=12
+                  count=response['Info'].length
+                  page_change_function(response['Info'].length);
+                  console.log(start+ "-" + end)
+                  insert_into_productfilter();
+                  
+          
+              },"json");
+  }
+  LoadProduct("All","All");
+</script>
+
+<script type="text/javascript">
+          function SeeDetails(val1){
+            var url=localStorage.getItem("url");
+          //var val=document.getElementById('hiddenpid').getAttribute('value');
+          var container=document.getElementById('tabelcontent');
+          console.log(val1);
+          $.post(url+"get_details_of_product",{pid:val1},
+                
+                function(response){
+                  
+                  //check if what response is 
+                  console.log(response);
+                  container.innerHTML='<div class="row justify-content-md-center"><img src="'+response['Info']['ProductImageAddress']+'" width="250" height="150" style="margin:10px" ></div><div class="row" ><table class="table table-bordered" id="table" style="text-align: center;"><thead><tr><th scope="col" colspan="3">Product Information</th></tr></thead><tbody><tr><td><b>Product ID</b></td><td id="ProductId">'+response['Info']['ProductId']+'</td></tr><tr><td><b>Product Name</b></td><td id="ProductName">'+response['Info']['ProductName']+'</td></tr><tr><td><b>Product Type</b></td><td id="ProductType">'+response['Info']['ProductType']+'</td></tr><tr><td><b>ProductFor</b></td><td id="ProductFor">'+response['Info']['ProductType1']+'</td></tr><tr><td><b>Product Brand</b></td><td id="ProductBrand">'+response['Info']['ProductBrand']+'</td></tr><tr><td><b>Product Warranty</b></td><td id="ProductWarranty">'+response['Info']['ProductWarranty']+'</td></tr><tr><td><b>Product Price/DiscountPrise/Rate</b></td><td id="ProductPrise">'+response['Info']['ProductPrise']+'INR/'+response['Info']['DiscountPrise']+'INR/'+response['Info']['DiscountRate']+'%</td></tr><tr><td><b>Product Image Address 1</b></td><td id="ProductImageAddress">'+response['Info']['ProductImageAddress']+'</td></tr><tr><td><b>Product Image Address 2</b></td><td id="ProductImageAddress1">'+response['Info']['ProductImageAddress1']+'</td></tr><tr><td><b>Product Added Date</b></td><td id="addeddate">'+response['Info']['addeddate']+'</td></tr></tbody></table></div>'
+
+                 
+                  
+          
+              },"json");
+
+        }
+        
+</script>
+
+
+
+
+
+{% endblock %}

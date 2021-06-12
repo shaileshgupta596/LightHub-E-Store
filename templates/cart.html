@@ -1,0 +1,122 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+ <!--Content -->
+{% if "LightHUb_User_ShoopingCart" in session %}
+
+
+<table class="table " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="7" >Your Cart List <img src="../static/images/list.png" style="width:50px;height: 50px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Item</th>
+      <th scope="col">ItemSpecification</th>
+      <th scope="col">Item Price</th>
+      <th scope="col">Item Count</th>
+      <th scope="col">Item Remove</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;">
+  	{% for key,elem in session['LightHUb_User_ShoopingCart'].items() %}
+  	{% if key != "tp" %}
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="{{elem['ProductImageAddress']}}" style="width:50px;height: 50px;border-radius: 50%"><br>
+      	 <b>{{elem['ProductName']}}</b>
+      </td>
+      <td>{{elem['ProductSpecification']}}<br>{{elem['ProductBrand']}}<br>{{elem['ProductType']}}</td>
+      <td style="font-weight: bold">Rs. <label style="font-size:11px;color:gray">
+        <s>{{elem['ProductPrice']}}</s></label>
+        <label>{{elem['DiscountPrice']}}</label>
+        <br>
+        <p style="font-size:12px"><span style="color:orange">({{elem['DiscountRate']}}%)</span>
+        <span style="color:green"> Save Rs.{{elem['ProductPrice']-elem['DiscountPrice']}}</span> </p>
+      </td>
+
+      <td><!--<input type="number" class="Count_of_an_Item form-control" style="width:150px" value="{{elem['Count']}}" min=1 max=10 name="" number="{{key}}" onchange="ItemCount(this)">-->
+        
+
+
+        <select class="form-control form-control-sm" style="width:150px" value="{{elem['Count']}}" name="" number="{{key}}" onchange="ItemCount(this)">
+        <option disabled selected>Choose...</option>
+        <option value="1">1 </option>
+        <option value="2">2</option>
+        <option value="3">3 </option>
+        <option value="4">4</option>
+        <option value="5">5</option></select>
+        <label><b>{{elem['Count']}}</label><b>
+      </td>
+
+
+      <td><a href="{{url_for('delete_cart_product',ProductId=key)}}"><img src="static/images/delete.png" align="center" class="d-flex justify-content-end" style="width:40px;height: 40px;border-radius:50%;"><b>Delete</b></a>
+      </td>
+      <td><b>Rs.{{ elem['Count'] * elem['DiscountPrice']}} .00</b>
+
+      </td>
+
+    </tr>
+    {% endif %}
+    {% endfor %}
+    <hr>
+    <tr>
+    	<td colspan="3"></td>
+    	<td><b></b></td>
+    	<td colspan="2"></td>
+    	<td><b>Final Amount : Rs.{{session['LightHUb_User_ShoopingCart']['tp']}}.00 </b></td>
+    </tr>
+    <tr align="center">
+    	<td colspan="7">
+    		<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModalCenter"><b>CONFIRM PRODUCT DETAILS</b></button>
+    	</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirm Products</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>Are you Sure you want to Confirm? </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><b>Close</b></button>
+        <a href="{{url_for('buyproduct')}}"><button type="button" class="btn btn-danger"><b>Confirm Products</b></button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+	function ItemCount(x) {
+		// body...
+		console.log(x.value);
+		  var url=localStorage.getItem("url");
+          $.post(url+"update_product_count_in_session",{pid:x.value,ProductId:x.getAttribute('number')},"json");
+          location.reload();
+          
+          //console.log(document.getElementsByClassName('Count_of_an_Item')[0].value+document.getElementsByClassName('Count_of_an_Item')[1].value+document.getElementsByClassName('Count_of_an_Item')[2].value);
+	}
+
+</script>
+{% endif %}
+{% if "LightHUb_User_ShoopingCart" not in session %}
+<h2 align="center">NO PRODUCT IN CART</h2>
+
+{% endif %}
+{% endblock %}

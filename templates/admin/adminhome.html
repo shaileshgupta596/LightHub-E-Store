@@ -1,0 +1,134 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+<style type="text/css">
+  a{
+    color: white;
+    text-decoration: none;
+  }
+  .counterContainer{
+    height: 180px;
+    margin:25px;
+    color:white;
+  }
+  .counter{
+    font-size: 90px;
+    font-weight: bold;
+    text-align: center
+  }
+  .counterName{
+    font-size:20px;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+<script src= "static/js/jquery-3.4.1.js"></script>
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-4 bg-white rounded">
+      <h3 align="center">ORDER INFORMATION</h3>
+    </div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-sm bg-warning shadow counterContainer">
+  <div class="counter" id="PendingOrders">0</div>
+  <div class="counterName"><a href="{{url_for('admin_orders')}}">Pending Order</a></div>
+</div>
+<div class="col-sm bg-success shadow counterContainer">
+  <div class="counter" id="CompleteOrder" >0</div>
+  <div class="counterName"><a href="{{url_for('admin_complete_orders_page')}}">Complete Order</a></div>
+</div>
+<div class="col-sm bg-danger shadow counterContainer">
+  <div class="counter" id="CancelOrders">0</div>
+  <div class="counterName"> <a href="{{url_for('cancel_order_page')}}">Cancel Order</a></div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-sm bg-primary shadow counterContainer">
+  <div class="counter" id="NewOrders">0</div>
+  <div class="counterName"><a href="{{url_for('admin_orders')}}">New Orders</a></div>
+</div>
+  <div class="col-sm bg-secondary shadow counterContainer">
+  <div class="counter" id="CustomizedOrder">0</div>
+  <div class="counterName"><a href="#">Customized Order Message</a></div>
+</div>
+
+</div>
+
+</div>
+<script type="text/javascript">
+//setInterval(CounterProcess,10000);
+function file1(h,i,j,k,l){
+  $('#NewOrders').prop('Counter',0).animate({
+
+        Counter: h
+    }, {
+        duration: 5000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+      
+      $('#PendingOrders').prop('Counter',0).animate({
+
+        Counter: i
+    }, {
+        duration: 5000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+      $('#CompleteOrder').prop('Counter',0).animate({
+        Counter: j
+    }, {
+        duration: 5000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+      $('#CancelOrders').prop('Counter',0).animate({
+        Counter: k
+    }, {
+        duration: 5000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+      $('#CustomizedOrder').prop('Counter',0).animate({
+        Counter: l
+    }, {
+        duration: 5000,
+        easing: 'swing',
+        step: function (now) {
+            $(this).text(Math.ceil(now));
+        }
+    });
+      
+      }
+
+     function CounterProcess(){
+      var NewOrders,PendingOrders,CompleteOrder,CancelOrders,CustomizedOrder;
+      var url=localStorage.getItem("url");
+          //console.log('kjebjbfw;jebf;lwbef;lw');
+          val1='{{username}}'
+          $.post(url+"get_counter_data",{},
+                
+                function(response){
+                  console.log(response);
+                  NewOrders=response['Info']['NewOrder']
+                  PendingOrders=response['Info']['PendingOrder'];
+                  CompleteOrder=response['Info']['CompletedOrder'];
+                  CancelOrders=response['Info']['CancelOrder'];
+                  CustomizedOrder=response['Info']['CustomizeQuery'];
+        file1(NewOrders,PendingOrders,CompleteOrder,CancelOrders,CustomizedOrder);
+                  
+              },"json");
+
+     }
+     CounterProcess();
+</script>
+{% endblock %}

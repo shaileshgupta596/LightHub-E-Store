@@ -1,0 +1,640 @@
+{% extends "commen_nav.html" %}
+{% block body2 %}
+
+<style type="text/css">
+  .container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 8px;
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+</style>
+<div class="row p-3 mb-5  rounded" style="margin-top: 20px;">
+  
+<div class="row justify-content-center" style="margin: 0px;width: 100%;color:red">
+</div>
+
+<div class="row" style="width: 100%">
+
+ 
+ <!--Content -->
+ <div class="col-sm-2 shadow-sm ">
+ 	    <div class="con" style="">
+
+
+
+        <h6>PRODUCT TYPE</h6><hr>
+      <label class="container">All
+  <input type="radio" value="All" name="s"  checked="checked" class="p_type_checkbox" onclick="main()" >
+  <span class="checkmark" ></span>
+</label>
+<label class="container">Commercial
+  <input type="radio" value="Commercial" id="Commercial" name="s" class="p_type_checkbox"  onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Decorative
+  <input type="radio" value="Decorative" id="Decorative" name="s"  class="p_type_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Customized
+  <input type="radio" value="Customized" id="Customized" name="s"  class="p_type_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<hr>
+
+<h6>PRODUCTS</h6><hr>
+<label class="container">All
+  <input type="checkbox" value="All" name="b" onclick="product_checkbox_work(this)" checked="checked" class="product_checkbox">
+  <span class="checkmark" ></span>
+</label>
+<label class="container">Wall Lights
+  <input type="checkbox" value="Wall" id="Wall" name="b" onchange ="product_checkbox_work(this)" class="product_checkbox" >
+  <span class="checkmark"></span>
+</label>
+<label class="container">Hanging Lights
+  <input type="checkbox" value="Hanging" id="Hanging" name="b" onchange ="product_checkbox_work(this)" class="product_checkbox" >
+  <span class="checkmark"></span>
+</label>
+<label class="container">Ceiling
+  <input type="checkbox" value="Ceiling" name="b" id="Ceiling" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Chandelier
+  <input type="checkbox" value="Chandelier" name="b" id="Chandelier" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Table Lamp
+  <input type="checkbox" value="TableLamp" id="TableLamp" name="b" onchange ="product_checkbox_work(this)" class="product_checkbox" >
+  <span class="checkmark"></span>
+</label>
+<label class="container">Out Door
+  <input type="checkbox" value="Door" name="b" id="Door" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Floor Lights
+  <input type="checkbox" value="Floor" name="b" id="Floor" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Mirror Lights
+  <input type="checkbox" value="Mirror" name="b" id="Mirror" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Picture Lights
+  <input type="checkbox" value="Picture" name="b" id="Picture" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Others
+  <input type="checkbox" value="Others" name="b" id="Others" onclick="product_checkbox_work(this)" class="product_checkbox">
+  <span class="checkmark"></span>
+</label>
+<hr>
+
+<h6>PRODUCT BRAND</h6><hr>
+<label class="container">All
+  <input type="checkbox" value="All" name="b" onclick="brand_checkbox_work(this)" checked="checked" class="brand_checkbox">
+  <span class="checkmark" ></span>
+</label>
+<label class="container">Syska
+  <input type="checkbox" value="Syska" name="b" onclick="brand_checkbox_work(this)" class="brand_checkbox" >
+  <span class="checkmark"></span>
+</label>
+<label class="container">Philips
+  <input type="checkbox" value="Philips" name="b" onclick="brand_checkbox_work(this)" class="brand_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Eveready
+  <input type="checkbox" value="Eveready" name="b" onclick="brand_checkbox_work(this)" class="brand_checkbox">
+  <span class="checkmark"></span>
+</label>
+<label class="container">Lighthub
+  <input type="checkbox" value="others" name="b" onclick="brand_checkbox_work(this)" class="brand_checkbox">
+  <span class="checkmark"></span>
+</label>
+<hr>
+
+<h6>PRODUCT PRICE</h6><hr>
+<label class="container">All
+  <input type="radio" value="All" name="p" checked="checked" class="price_checkbox" onclick="main()">
+  <span class="checkmark" ></span>
+</label>
+<label class="container">0 Rs - 200Rs
+  <input type="radio" value="0-200" name="p" class="price_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">200Rs - 400Rs
+  <input type="radio" value="200-400" name="p" class="price_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">400Rs - 800Rs
+  <input type="radio" value="400-800" name="p" class="price_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">800Rs - 1200Rs
+  <input type="radio" value="800-1200" name="p" class="price_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">1200Rs Above
+  <input type="radio" value="1200-20000" name="p" class="price_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<hr>
+
+<h6>PRODUCT PRICE</h6><hr>
+<label class="container">All
+  <input type="radio" value="All" name="w"  checked="checked" class="p_warranty_checkbox" onclick="main()" >
+  <span class="checkmark" ></span>
+</label>
+<label class="container">Warranty
+  <input type="radio" value="1" name="w" class="p_warranty_checkbox"  onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<label class="container">No Warranty
+  <input type="radio" value="0"  name="w"  class="p_warranty_checkbox" onclick="main()">
+  <span class="checkmark"></span>
+</label>
+<hr>
+
+</div>
+      
+ </div>
+
+
+
+
+
+
+ <div class="col-sm-10 shadow" style="" id="aaa">
+  <p align="center" id="numberofresult" style="margin-top: 10px;font-size: 20px"></p>
+ 	<div class="row" style="width: 100%" id="Watchlist"></div>
+
+
+  <table cellpadding="15px" style="margin-top: 40px">
+  <tbody>
+    <tr>
+      <td><button class="btn btn-danger btn-sm" id="privious_btn"  onclick="pagechange(this)">&#8249;Privious</button></td>
+      <td><input type="text" id="pagecount" disabled value=1 style="width: 50px;height: 50px;text-align: center"></td>
+      <td><button class="btn btn-primary btn-sm" id="next_btn" onclick="pagechange(this)">Next&#8250;</button></td>
+    </tr>
+  </tbody>
+  
+</table>
+
+
+ </div>
+
+</div>
+
+</div>
+
+<!-- modal for watchlist action -->
+<button type="button" id="watchlistactionmodalbutton" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" hidden>
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <p align="center" id="watchlistaction" style="color:green;font-size: 20px"><b>Added Into Your WatchList</b></p>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="{{url_for('static',filename='js/productfilter.js')}}"></script>
+<!--<script type="text/javascript">
+  function p_type_checkbox(x){
+    b = document.getElementsByClassName('p_type_checkbox');
+    console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i] != x){
+        b[i].checked =false;
+      }
+      
+    }
+    x.checked=true;
+  }
+</script>
+<script type="text/javascript">
+  function brand_checkbox_work(x){
+    b = document.getElementsByClassName('brand_checkbox');
+    if (x.checked == true && x.value == 'All'){
+        for(var i=0 ; i < b.length ;i++){
+        if(b[i]!=x){
+          b[i].checked = false;
+        }
+      }
+        
+    }
+
+    if (x.checked == true && x.value != 'All'){
+        for(var i=0 ; i < b.length ;i++){
+        if(b[i].value=="All"){
+          b[i].checked = false;
+        }
+      }
+        
+    }
+    main();
+  }
+  function product_checkbox_work(x){
+    b = document.getElementsByClassName('product_checkbox');
+    if (x.checked == true && x.value == 'All'){
+        for(var i=0 ; i < b.length ;i++){
+        if(b[i]!=x){
+          b[i].checked = false;
+        }
+
+      }
+        
+    }
+
+    if (x.checked == true && x.value != 'All'){
+        for(var i=0 ; i < b.length ;i++){
+        if(b[i].value=="All"){
+          b[i].checked = false;
+        }
+      }
+        
+    }
+    main();
+  }
+  function p_type_checkbox(){
+    
+    b = document.getElementsByClassName('p_type_checkbox');
+    //console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i].checked == true){
+        return b[i].value
+      } 
+    }
+  }
+  function brand_checkbox(){
+
+    var brand_list=[]
+    b = document.getElementsByClassName('brand_checkbox');
+    //console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i].checked == true){
+        brand_list.push(b[i].value)
+      } 
+    }
+    return brand_list
+  }
+  function price_checkbox(){
+    
+    b = document.getElementsByClassName('price_checkbox');
+    //console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i].checked == true){
+        return b[i].value
+      } 
+    }
+
+  }
+  function product_checkbox(){
+    var brand_list=[]
+    b = document.getElementsByClassName('product_checkbox');
+    //console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i].checked == true){
+        brand_list.push(b[i].value)
+      } 
+    }
+    return brand_list
+  }
+
+  function p_warranty_checkbox(){
+    
+    b = document.getElementsByClassName('p_warranty_checkbox');
+    //console.log(b.length);
+    for(var i=0 ; i < b.length ;i++){
+      if (b[i].checked == true){
+        return b[i].value
+      } 
+    }
+  }
+/*
+function main(){
+  document.getElementById('loader').style.display='block';
+  document.getElementById('aaa').style.display='none';
+  setTimeout(main1,1000);
+}
+main();*/
+var product_filter_response
+var count=0;
+var start=0;
+var end=0;
+var page_count=0
+  function pagechange(btn){
+    var val=document.getElementById('pagecount').value
+    if (btn.getAttribute('id')=="privious_btn"){
+      val=Number(val)-1;
+      document.getElementById('pagecount').setAttribute('value',val);
+      pagechangeprocess(val);
+    }
+    else{
+      val=Number(val)+1;
+      document.getElementById('pagecount').setAttribute('value',val);
+      pagechangeprocess(val);
+    }
+
+  }
+
+  function pagechangeprocess(val){
+    console.log("Page Number -"+val)
+    if (page_count <=1){
+          start=0;
+          end=count;
+          document.getElementById('next_btn').disabled=true;
+          document.getElementById('privious_btn').disabled=true;
+    }
+    else{
+
+            if (val<=1){
+              /*boundary condition to avoid if there is one two page
+              for eg. if page_count=2 */
+              document.getElementById('privious_btn').disabled=true;
+              document.getElementById('next_btn').disabled=false;
+              start=0
+              end=12
+              
+            }
+            else if(val >=page_count){
+              start=val*12 -12
+              end=count
+              document.getElementById('next_btn').disabled=true;
+              document.getElementById('privious_btn').disabled=false;
+              
+            }
+            else{
+              start=val*12 -12
+              end=val*12
+              document.getElementById('next_btn').disabled=false;
+              document.getElementById('privious_btn').disabled=false;
+            }
+            
+         }//console.log(start+ "-" + end)
+      insert_into_productfilter();
+
+  }
+
+  function privious_btn_funtion(){
+    if(Number(document.getElementById('pagecount').getAttribute('value')) == 1){
+      document.getElementById('privious_btn').disabled=true;
+    }
+  }
+privious_btn_funtion();
+
+function page_change_function(count1){
+
+      page_count=Math.ceil(count1/12);
+      //console.log("number of pages >"+ page_count)
+      if(page_count ==1){
+        start=0;
+        end=count
+        document.getElementById('next_btn').disabled=true;
+        document.getElementById('privious_btn').disabled=true;
+      }
+      else{
+        //if number of pages is not equal to 1 enable next button;
+        document.getElementById('next_btn').disabled=false;
+      }
+          
+}
+
+function insert_into_productfilter(){
+  //console.log("length of response >"+product_filter_response['Info'].length);
+  var response=product_filter_response
+  var info="";
+  var PopularLights = document.getElementById('Watchlist');
+  if (response['Info'].length <1){
+    PopularLights.innerHTML=info;
+    return 1;
+  }
+  for(var i=start;i<end;i++){
+    var save=response['Info'][i]['ProductPrice']-response['Info'][i]['DiscountPrice']
+
+                        info=info+'<div class="col-sm-3 rounded " style="margin-top: 45px"><div class="Product_box shadow-sm" onmouseover="bigshadow(this)" onmouseout="normalshadow(this)" style="width:230px; "><div class="product_image"><a href="#"><img src=../'+response['Info'][i]['ProductImageAddress']+' class="shadow-sm" style="width:230px;height: 200px;"></a></div><div class="product_information shadow"><div class="row" style=""><div class="col-sm" style="font-size: 14px;margin-left:10px"><p> <b>'+response['Info'][i]['ProductName']+'</b><br>'+response['Info'][i]['ProductType']+',led,'+response['Info'][i]['ProductType1']+','+response['Info'][i]['ProductSpecification']+'<br>        <b>Rs.<s style="color:gray;font-size:10px">'+response['Info'][i]['ProductPrice']+' </s>'+response['Info'][i]['DiscountPrice']+'<br><lable style="color:orange;font-size:12px">('+response['Info'][i]['DiscountRate']+'%)<label style="color:green"> Save Rs.'+save+'           </label></label></b>     </p></div></div><div class="row"><div class="col-sm" style="height: 50px;margin-left: 5px"><button class="btn btn-outline-danger btn-sm" style="width:100%;" value='+response['Info'][i]['ProductId']+' onclick="watchlist(this)"><b>WatchList</b></button></div><div class="col-sm" style="height: 50px;margin-right: 5px"><form method="post"><input type="hidden" name="ProductName" value='+response['Info'][i]['ProductId']+'><button class="btn btn-outline-success btn-sm" style="width:100%;" formtarget=”_blank”><b>See</b></button></form></div></div></div></div></div>'
+                      }
+                      PopularLights.innerHTML=info;
+}
+
+  
+
+function main() {
+  //loading all data
+    ptype_checkbox=p_type_checkbox();
+    pbrand_checkbox=brand_checkbox();
+    pprice_checkbox=price_checkbox();
+    pproduct_checkbox=product_checkbox();
+    pwaranty_checkbox = p_warranty_checkbox();
+    var obj={ptype:ptype_checkbox,pbrand :pbrand_checkbox,
+      pproduct:pproduct_checkbox,pprice:pprice_checkbox.split('-'),pwarranty:pwaranty_checkbox}
+  
+
+    
+
+  var url=localStorage.getItem("url");
+  
+  $.post(url+"get_customerproductfilter",{sql:JSON.stringify(obj)},
+                
+                function(response){
+                  document.getElementById('numberofresult').innerHTML=response['Info'].length+'   Result Found';
+                  var info="";
+                  
+
+            
+
+                  //product page change part
+                  
+                  product_filter_response=response;
+                  document.getElementById('pagecount').setAttribute('value','1');
+                  start=0;end=12
+                  count=response['Info'].length
+                  page_change_function(response['Info'].length);
+                  //product page change part end
+                  console.log(start+ "-" + end)
+                  insert_into_productfilter();
+                
+
+                  
+          
+              },"json");
+
+}
+
+main();
+function bigshadow(x){
+  x.setAttribute("class","Product_box shadow-lg");
+}
+
+function normalshadow(x){
+  x.setAttribute("class","Product_box shadow-sm");
+}
+
+
+</script>-->
+
+
+
+
+
+<script type="text/javascript">
+  //watchlist
+  function watchlist(x){
+    var url=localStorage.getItem("url");
+      var pid=x.getAttribute('value')
+      username_session='{{username}}'
+      if (username_session == ''){
+         location.replace(url+"login")
+         return 0;
+      }
+      //console.log("jhfh"+pid);
+      $.post(url+"insert_into_watchlist",{pid:pid},
+                
+                function(response){
+                  //check if what response is 
+                  if(response['Info'] == '3'){
+                      var elem=document.getElementById('watchlistaction');
+                      elem.innerHTML="Your WatchList Limit has been Reached ";
+                      elem.style.color="red";
+                      document.getElementById('watchlistactionmodalbutton').click();
+
+                  }
+                  if(response['Info'] == '2'){
+                      var elem=document.getElementById('watchlistaction');
+                      elem.innerHTML="Product Already present in your watchlist!";
+                      elem.style.color="red";
+                      document.getElementById('watchlistactionmodalbutton').click();
+
+                  }
+                  if(response['Info'] == '1'){
+                      var elem=document.getElementById('watchlistaction');
+                      elem.innerHTML="This Product added in your watchlist ";
+                      elem.style.color="green";
+                      document.getElementById('watchlistactionmodalbutton').click();
+
+                  }
+                  
+          
+              },"json");
+
+  }
+</script>
+
+<script type="text/javascript">
+function timepass(){
+  
+  var value = '{{value}}'
+  //console.log(value);
+  if (value=="a"){
+  document.getElementById('Commercial').checked=true;
+  document.getElementById('Commercial').click();
+}
+if (value=="Decorative"){
+  document.getElementById('Decorative').checked=true;
+  document.getElementById('Decorative').click();
+}
+if (value=="Customized"){
+  document.getElementById('Customized').checked=true;
+  document.getElementById('Customized').click();
+}
+if (value=="TableLamp"){
+  document.getElementById('TableLamp').setAttribute('checked','checked');
+
+  product_checkbox_work(document.getElementById('TableLamp'));
+}
+if (value=="Floor"){
+  document.getElementById('Floor').setAttribute('checked','checked');
+  product_checkbox_work(document.getElementById('Floor'));
+}
+if (value=="Balcony"){
+  document.getElementById('Balcony').setAttribute('checked','checked');
+  product_checkbox_work(document.getElementById('Balcony'));
+}
+if (value=="Ceiling"){
+  document.getElementById('Ceiling').setAttribute('checked','checked');
+  product_checkbox_work(document.getElementById('Ceiling'));
+}
+if (value=="Window"){
+  document.getElementById('Window').setAttribute('checked','checked');
+ product_checkbox_work(document.getElementById('Window'));
+}
+if (value=="Other"){
+  document.getElementById('Others').setAttribute('checked','checked');
+  product_checkbox_work(document.getElementById('Others'));
+}
+
+}
+setTimeout(timepass, 1000);
+
+</script>
+
+{% endblock %}

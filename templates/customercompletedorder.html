@@ -1,0 +1,134 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+
+<div class="row">
+<table class="table shadow " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="4" >Completed Orders <img src="../static/images/list.png" style="width:50px;height: 50px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">OrderID</th>
+      <th scope="col">Status</th>
+      <th scope="col">Delivery Date</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;" id="yourorderstable">
+  {% if result|length >0%}
+    {% for order in result %}
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <th style="font-weight: bolder;font-size: 15px" data-toggle="modal" data-target=".bd-example-modal-lg" orderid="{{order[2]}}" onclick="orderopenmodal(this)" class="btn ">
+      {{order[2]}}</th>
+      <td style="color: green"><b>{{order[3]}}</b></td>
+      <td> {{order[5]}}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+      <tr align="center"><th colspan="5">No Result found</th></tr>
+    {% endif%}
+    
+  </tbody>
+</table>
+</div>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">VLH293846928639236</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+<div class="row">
+
+          <div class ="col-sm  ">
+            <div class="image" align="center">
+              <!--
+            <image class="shadow  bg-white rounded" src="../static/images/card1.jpeg" style="width:200px;height: 100px;"></image>-->
+                        <a class="navbar-brand" href="#">
+                <image src="../static/images/logo.png" style="width: 25px;height: 25px;border-radius: 50%;"></image>
+                <label style="color:black;font-size: 17px"><b>LIGHT</b></label><label style="color:red;font-size: 17px"><b>Hub</b></label>
+              </a>
+            </div>
+
+          </div>
+  </div>
+
+
+        <table class="table " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="5" >Order Details <img src="../static/images/list.png" style="width:30px;height: 30px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Product</th>
+      <th scope="col">Price & Spec</th>
+      <th scope="col">ProductCount</th>
+      <th scope="col">Total Price</th>
+      
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;" id="Indivial_order_detailstable">
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="../static/images/avatar.png" style="width:50px;height: 50px;border-radius: 50%"><br> Philips</td>
+      <td><b>100Rs</b><br>kj jkbks kjbajkab</td>
+      <td> 2</td>
+      <td> 200 Rs</td>
+    </tr>
+
+    
+  </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  function orderopenmodal(x) {
+    OrderID=x.getAttribute('orderid');
+    var url=localStorage.getItem("url");
+    var Indivial_order_detailstable = document.getElementById('Indivial_order_detailstable');
+    document.getElementById('exampleModalLabel').innerHTML=OrderID;
+    $.post(url+"Indivial_order_details",{OrderID:OrderID},
+                
+                function(response){
+                  console.log(response);
+                  var Info="";
+                  var save=0
+                  var final_amount=0;
+                  for(var i=0;i<response['Info'].length;i++){
+                    
+                    save=response['Info'][i]['ProductPrice']-response['Info'][i]['DiscountPrice']
+
+                  Info=Info + '<tr align="center"><th scope="col" class="counterCell"></th><td><img src="'+response['Info'][i]['ProductImageAddress']+'" style="width:50px;height: 50px;border-radius: 50%"><br><b>'+response['Info'][i]['ProductName']+'</b></td><td><b>Rs.<s style="color:gray;font-size:11px;">'+response['Info'][i]['ProductPrice']+'</s>'+response['Info'][i]['DiscountPrice']+'</b><p style="font-size:12px;"><b><span style="color:orange">('+response['Info'][i]['DiscountRate']+'%)</span><span style="color:green">Saved Rs.'+save+'</span></b></p>'+response['Info'][i]['ProductSpecification']+'</td> <td>'+response['Info'][i]['pcount']+'</td><td><b>Rs. '+response['Info'][i]['pcount']*response['Info'][i]['DiscountPrice']+'</b></td></tr>';
+
+                  final_amount=final_amount+(response['Info'][i]['pcount']*response['Info'][i]['DiscountPrice'])
+                }
+                Info=Info+'<tr><td colspan="4"></td><th align="center">final Amount: Rs'+final_amount+'.00</th></tr>'
+                  Indivial_order_detailstable.innerHTML=Info;
+          
+              },"json");
+
+    
+  }
+</script>
+{% endblock %}

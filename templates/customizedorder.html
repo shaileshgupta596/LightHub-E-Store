@@ -1,0 +1,82 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+
+<div class="row justify-content-center" style="margin-top:5px" id="Register_box">
+		<div class="col-sm-8 shadow p-3 mb-5 bg-white rounded justify-content-md-center" >
+
+	<form method="post" action="" enctype = "multipart/form-data">
+	<h5 align="center">Customize Your Orders</h5>
+
+<div class="row">
+  <div class="col-sm form-group">	
+    <label for="customername">Your Name</label><label style="color: red">*</label>
+    <input type="text" class="form-control form-control-sm" id="customername" aria-describedby="emailHelp" name="customername" required="required">
+  </div> 
+  <div class="col-sm form-group">	
+    <label for="exampleInputEmail1">Email address</label><label style="color: red">*</label> 
+    <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required="required"> 
+  </div> 
+</div>
+<div class="row">
+  
+  <div class=" col-sm form-group">
+    <label for="exampleInputPhone">Phone Number</label><label style="color: red">*</label>
+    <input type="tel" class="form-control form-control-sm" id="exampleInputPhone" pattern="[0-9]{10}" name="phone_number" required="required">
+  </div>
+  <div class="col-sm form-group">
+    <label for="ProductType1">Application Type</label><label style="color: red">*</label>
+    <select class="form-control form-control-sm" id="ProductType1" name='ProductType' required>
+    <option selected disabled>Choose...</option>
+    <option value="Wall">Wall </option>
+    <option value="Hanging">Hanging </option>
+    <option value="Ceiling">Ceiling </option>
+    <option value="Chandelier">Chandelier</option>
+    <option value="TableLamp">TableLamp</option>
+    <option value="Door">OutDoor</option>
+    <option value="Floor">Floor</option>
+    <option value="Mirror">Mirror</option>
+    <option value="Picture">Picture</option>
+    <option value="Other">Other </option> 
+  </select>
+  </div>
+
+</div>
+
+<div class="row">
+	<div class="col-sm form-group">
+		<label for="exampleFormControlTextarea1">Description About Custom Product</label><label style="color: red">*</label>
+		<textarea class="form-control" name="Description" id="exampleFormControlTextarea1" rows="3"></textarea>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-sm form-group">
+		<label for="inputGroupFile01"> Upload Image Example(Optional)</label><br>
+  	 <input type="file" class="" name="file" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" required>
+  </div>
+</div>
+<div class="row">
+	<div class="col-sm form-group">
+		<button type="submit" id="reg_btn" style="width: 100%" class="btn btn-primary"><b>Send Information</b></button>
+  </div>
+  
+</div>
+<div class="row">
+	<div class="col-sm form-group">
+		<a href="{{url_for('contactus')}}" style="color: white"><button type="button"  style="width: 100%" class="btn btn-danger"><b>Directly Contact Us</b></button></a>
+  </div>
+  
+</div>
+</form>
+
+<div class="alert alert-primary alert-dismissible" role="alert" style="text-align: center">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <b>"Our Team will Revert Back within 24 Hours Of Working Days."</b>
+</div>
+</div>
+{{error}}
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+<style type="text/css">
+	label{
+		font-size: 12px;
+	}
+</style>
+
+<div class="timepass shadow p-3 mb-5 bg-white rounded d-flex justify-content-center">
+	
+
+  <table class="table table-hover" id="PartnerTable" style="width: 850px">
+  <thead>
+    <tr>
+      <th scope="col">Sr.NO</th>
+      <th scope="col">Enterprise Name</th>
+      <th scope="col">Owner Name</th>
+      <th scope="col">View Details</th>
+      <!--<th scope="col">Relation Rating</th>-->
+      <th scope="col">Remove Partner</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    
+    <tr>
+      <th scope="row">1</th>
+      <td>Cozy Enterprises</td>
+      <td>Shailesh Gupta</td>
+      <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ViewDetails">View Details</button></td>
+      <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#RemovePartner">Remove</button></td>
+    </tr>
+
+    
+  </tbody>
+</table>
+
+     
+</div>
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="ViewDetails" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">      
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+                <div class="row justify-content-md-center">
+                        <img src="{{url_for('static' ,filename='img/avatar.png')}}" width="150" height="150" style="margin:10px" >
+                      </div>
+                      <div class="row" >
+                        <table class="table table-bordered" id="table" style="text-align: center;">
+                          <thead>
+                            <tr>
+                              <th scope="col" colspan="3">Partner Information</th>         
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><b>Product Name</b></td>
+                              <td id="EnterpriseName">Otto</td>   
+                            </tr>
+                            <tr>                              
+                              <td><b>Owner Name</b></td>
+                              <td id="OwnerName">Thornton</td>   
+                            </tr> 
+                            <tr>                              
+                              <td><b>Contact 1</b></td>
+                              <td id="Contact1">Thornton</td>   
+                            </tr> 
+                            <tr>                              
+                              <td><b>Contact 2</b></td>
+                              <td id="Contact2">Thornton</td>   
+                            </tr>
+                            <tr>                              
+                              <td><b>Email</b></td>
+                              <td id="Contact3">Thornton</td>   
+                            </tr>
+                            <tr>                              
+                              <td><b>Location</b></td>
+                              <td id="Address">Thornton</td>   
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="RemovePartner" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Remove</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are You Sure You Want to Remove?
+      </div>
+      <div class="modal-footer">
+        <form action = "{{url_for('remove_partner')}}" method="post">
+          <input type="number" name="pid" value="" id="hiddenpid" hidden="hidden">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary" >Yes</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var partnerTable = document.getElementById('PartnerTable').getElementsByTagName('tbody')[0];
+  partnerTable.innerHTML='';
+  function LoadPartners(){
+    var url=localStorage.getItem("url");
+      $.post(url+"get_Details_of_Partners",{},
+                
+                function(response){
+                  //check if what response is 
+                  //console.log(response);
+                  for(var i=0;i<response['Info'].length;i++){
+                    var row = partnerTable.insertRow(i);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        var cell5 = row.insertCell(4);
+
+                        cell1.innerHTML=i+1;
+                        cell2.innerHTML=response['Info'][i]['EnterpriseName'];
+                        cell3.innerHTML=response['Info'][i]['OwnerName'];
+                        cell4.innerHTML='<button type="button" class="btn btn-primary" data-toggle="modal" onclick="LoadIndividualDetails('+response['Info'][i]['EnterpriseId']+')" data-target="#ViewDetails">View Details</button></td>'
+                        cell5.innerHTML='<td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#RemovePartner" onclick="RemovePartner('+response['Info'][i]['EnterpriseId']+')">Remove</button></td>'
+
+                  }
+                  
+          
+              },"json");
+  }
+  LoadPartners();
+</script>
+
+<script type="text/javascript">
+  var url=localStorage.getItem("url");
+
+            function LoadIndividualDetails(x){
+                        //console.log(x);
+                          var table=document.getElementById('table').getElementsByTagName('tbody')[0];
+                          
+                          $.post(url+"get_Details_of_Individual_Partners",{pid:x},
+                
+                         function(response){
+                          //console.log(response)
+                          document.getElementById('EnterpriseName').innerHTML=response['Info']['EnterpriseName'];
+                          document.getElementById('OwnerName').innerHTML=response['Info']['OwnerName'];
+                          document.getElementById('Contact1').innerHTML=response['Info']['Contact1'];
+                          document.getElementById('Contact2').innerHTML=response['Info']['Contact2'];
+                          document.getElementById('Contact3').innerHTML=response['Info']['Contact3'];
+                          document.getElementById('Address').innerHTML=response['Info']['Address'];
+
+                  
+                        },"json");
+
+                      }
+                      
+</script>
+<script type="text/javascript">
+  function RemovePartner(x){
+    //console.log(x);
+    
+    document.getElementById('hiddenpid').setAttribute('value',x);                
+  }
+
+</script>
+
+{% endblock %}

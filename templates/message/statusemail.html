@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<h4> Dear Customer,</h4>
+
+
+	{% if status == "OrderConfirmed" %}
+ <b>&nbsp;&nbsp;&nbsp;&nbsp;Your Order Agaist OrderID <label style="color:green"><p style="font-size: 14px;">"{{orderid}}"</label> has been Sucessfully Confirm & 25% of total Payment will be Recieved by Lighthub. We are Speeding Up our Process so that your Order will be recievd Within dedicated Time. </b></p>
+{% endif %}
+{% if status == "OrderPack" %}
+ <b>&nbsp;&nbsp;&nbsp;&nbsp;Your Order Agaist OrderID <label style="color:green"><p style="font-size: 14px;">"{{orderid}}"</label> has been start Processing  by Lighthub. We are Speeding Up our Process so that your Order will be recievd Within dedicated Time. </b></p>
+{% endif %}
+{% if status == "OrderDispatch" %}
+ <b>&nbsp;&nbsp;&nbsp;&nbsp;Your Order Agaist OrderID <label style="color:green"><p style="font-size: 14px;">"{{orderid}}"</label> has been Dispatch for Delivery by Lighthub. Please Verify Product at the time of Delivery. </b></p>
+{% endif %}
+{% if status == "OrderDeliverd" %}
+ <b>&nbsp;&nbsp;&nbsp;&nbsp;Your Order Agaist OrderID <label style="color:green"><p style="font-size: 14px;">"{{orderid}}"</label> has been Sucessfully Deliverd & Toal Payment will be Recieved by Lighthub.  </b></p>
+{% endif %}
+ <p style="font-size: 12px">Please read Terms & Condition and Cancellation Policy</p>
+}
+
+<p style="color: green;font-size: 14px"><b>Thank you,</b></p>
+<p align="center"><img align="center"   src="http://shaileshgupta596.pythonanywhere.com/static/images/emaillogo.PNG" alt="logo"></p>
+<p style="color: red;font-size: 12px;font-weight: bold">This is System Generated Mail. Do not Reply.</p>
+
+</body>
+</html>

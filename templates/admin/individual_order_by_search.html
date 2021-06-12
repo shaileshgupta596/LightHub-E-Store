@@ -1,0 +1,281 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+
+
+<form method="post">
+<div class="row">
+
+<div class="col-sm form-group">
+	<input type="text" class="form-control" id="OrderID" aria-describedby="emailHelp" name="OrderID"  placeholder="Enter OrderID ..." required>
+</div>
+<div class="col-sm form-group">
+	<button class="btn btn-lg btn-primary">Search</button>
+</div>
+
+</div>
+</form>
+<hr style="border: bold">
+{% if flag !=0 %}
+{{response}}
+<table class="table table-bordered" align="center" style="">
+	<thead>
+		<!--<tr align="center"><th  colspan="4"> OrderDetails</th></tr>-->
+		<tr align="center">
+			<th colspan="4"><img align="center"   src="http://shaileshgupta596.pythonanywhere.com/static/images/emaillogo.PNG" alt="logo"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr style="font-size: 16px">
+			<td colspan="4">
+			<div class="row" style="width: 100%">
+				<div class="col-sm-9">
+					<h6><b>LightHub.com</b></h6>
+					<p ><b>Address:</b> 403/Gangaram Complex/Near Ghandhi Chowk,<br>Parel,Mumbai-400027</p>
+					<p style="margin-top: -5px"><b>Email:</b> lighthub4@gmail.com</p>
+					<p style="margin-top: -5px"><b>Contact:</b> 8169056865
+				</div>
+				<div class="col-sm-3">
+						<h6><b>INVOICE</b></h6>
+						<p>Invoice date :<b>dd/mm/yyyy</b>
+						<p>Invoice Number:<b> ##############</b></p>
+				</div>
+			</div>
+			</td>
+		</tr>
+		<!-- Customer Details -->
+		<tr>
+			<td colspan="4" align="center"><b>Customer Information</b></td>
+		</tr>
+		<tr>
+			<td style="padding:2px">
+						<label style="font-weight: bold">Name:&nbsp;&nbsp;</label>{{response['customer_info']['cname']}}
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Contact No:&nbsp;&nbsp;</label>{{response['customer_info']['phone_number']}}
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Email:&nbsp;&nbsp;</label>{{response['customer_info']['email']}}
+			</td>
+		</tr>
+		<!--  Address -->
+		<tr >
+			<td colspan="2" style="padding:4px">
+				<p><label><b>Address:&nbsp;&nbsp;</b></label>{{response['customer_info']['address']}}</p>
+			</td>
+			<td colspan="2" style="padding:4px">
+				<p><label><b>Shipping Address:&nbsp;&nbsp;</b></label>{{response['customer_info']['address']}}</p>				
+			</td>
+		</tr>
+		<!-- order Information -->
+		<tr>
+			<td colspan="4" align="center"><label><b>Order Information</b></label></td>
+		</tr>
+
+{% if response['type']=="Pending" %}
+<tr>
+			<td style="padding:4px">
+						<label style="font-weight: bold">OrderID:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder">{{response['OrderInfo']['OrderID']}}</label>
+						
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Order Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['OrderDate']}}
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Order Confirmed:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> {{response['OrderInfo']['OrderStatus']}}</label>
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Confirmed Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['ConfirmationTime']}}
+			</td>
+		</tr>
+{% endif %}
+{% if response['type'] == 'Completed' %}
+		<tr>
+			<td style="padding:4px">
+						<label style="font-weight: bold">OrderID:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder">{{response['OrderInfo']['OrderID']}}</label>
+						
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Order Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['OrderDate']}}
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Order Confirmed:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Yes/25%payment Done</label>
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Confirmed Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['ConfirmationTime']}}
+			</td>
+		</tr>
+		<tr>
+			<td style="padding:2px">
+						<label style="font-weight: bold">Order Status:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder">Deliverd/Completed</label>
+						
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Delivery Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['DeliverDate']}}
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Pendind Amount:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder"> Recived</label>
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Payment Method:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder"> --</label>
+			</td>
+		</tr>
+		{% endif %}
+
+
+{% if response['type'] == 'Cancel'%}
+		<tr>
+			<td style="padding:4px">
+						<label style="font-weight: bold">OrderID:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder">{{response['OrderInfo']['OrderID']}}</label>
+						
+			</td>
+			<!--<td style="padding:4px">
+						<label style="font-weight: bold">Order Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['OrderDate']}}
+			</td>-->
+			<td style="padding:4px">
+						<label style="font-weight: bold">Order Confirmed:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> {{response['OrderInfo']['OrderStatus']}}</label>
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Confirmed Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['ConfirmationTime']}}
+			</td>
+		</tr>
+		<tr>
+			<td style="padding:2px">
+						<label style="font-weight: bold">Order Status:&nbsp;&nbsp;</label><label style="color: green;font-weight: bolder">Cancel</label>
+						
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Cancel By:&nbsp;&nbsp;</label><label style="color:red;font-weight: bolder">{{response['OrderInfo']['CancelBy']}}</label>
+			</td>
+			<td style="padding:4px">
+						<label style="font-weight: bold">Cancellation Date:&nbsp;&nbsp;</label>{{response['OrderInfo']['CancelDate']}}
+			</td>
+			<td style="padding:4px">
+				{% if response['OrderInfo']['time_difference'] >2 %}
+						<label style="font-weight: bold">Refund:&nbsp;&nbsp; </label><label style="color: red;font-weight: bolder"> NO REFUND</label>
+				{% else %}
+						<label style="font-weight: bold">Refund:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder">Eligible</label>
+				{% endif %}
+			</td>
+		</tr>
+{% endif %}
+
+
+
+</tbody>
+</table>				
+		
+		</table>
+		<table class="table table-bordered">
+			<thead>
+				<th>Sr No</th>
+				<th colspan="2">Item Information</th>
+				<th>ItemCount * Price</th>
+				<th>Total Amount</th>
+			</thead>
+			<tbody>
+				{% for elem  in response['Orders'] %}
+			<tr>
+				<td>1</td>
+				<td colspan="2">{{elem['ProductId']}}&nbsp;/&nbsp;{{elem['ProductName']}}&nbsp;/&nbsp;{{elem['ProductSpecification']}}/&nbsp;
+					<b>Rs.<s style="color:gray;font-size:10px">{{elem['ProductPrice']}} </s>{{elem['DiscountPrice']}}/<lable style="color:orange;font-size:14px">( {{elem['Discount']}}%)</lable></b>
+					</td>
+				<td>{{elem['pcount']}} * Rs.{{elem['DiscountPrice']}}</td>
+				<td><b>Rs.{{ elem['pcount'] * elem['DiscountPrice'] }} </b></td>
+			</tr>
+			{% endfor %}
+			<tr>
+				<td colspan="3"></td>
+			<td colspan="2" style="padding:4px">
+				<b>Final Amount: Rs.{{response['TotalPrice']}}</b>
+			</td>
+
+			</tbody>
+		</table>
+
+
+<table class="table table-bordered">
+		<!-- pending and final-->
+		<tbody>
+{% if response['type'] == 'Completed'%}
+		<tr>
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold">Order Confirmed payment:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Rs.{{((response['TotalPrice']*25)/100)}}</label>
+			</td>
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold">Pending Amount:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Rs.{{response['TotalPrice'] - ((response['TotalPrice']*25)/100)}} Recieved</label>
+			</td>
+		</tr>
+{% endif %}
+
+{% if response['type'] == 'Pending'%}
+	{% if response['OrderInfo']['OrderStatus'] != '-' %}
+
+		<tr>
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold">Order Confirmed payment:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Rs.{{((response['TotalPrice']*25)/100)}}</label>
+			</td>
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold">Pending Amount:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Rs.{{response['TotalPrice'] - ((response['TotalPrice']*25)/100)}} Recieved</label>
+			</td>
+		</tr>
+		{% endif %}
+{% endif %}
+
+{% if response['type'] == 'Completed'%}
+		<tr>
+			<td colspan="4" style="padding:4px">
+						<label style="font-weight: bold">Total Amount Recieved:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Rs.{{response['TotalPrice']}} Recieved</label>
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" style="padding:4px">
+				<input type="checkbox" name="" checked="checked">&nbsp;&nbsp;<label style="color: green;font-weight: bold">You have Checked & verifid  Products At the time Of delivery.</label>
+			</td>
+		</tr>
+
+		<tr>
+			
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold">Company Owner Signature:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"> Mr.Vishal Gupta</label>
+			</td>
+			<td colspan="2" style="padding:4px">
+						<label style="font-weight: bold"> Approved Stamps:&nbsp;&nbsp; </label><label style="color: green;font-weight: bolder"></label>
+			</td>
+		</tr>
+
+
+</tbody>
+</table>
+{% endif %}
+
+
+<table class="table">
+	<thead>
+		<tr align="center"><th colspan="4" align="center">Note:</th></tr>
+	</thead>
+	<tbody class="table-bordered">
+		
+		<tr>
+			<td colspan="4" style="padding:4px">
+				&nbsp;&nbsp;<label style="color: red;font-weight: bold">Non Refundable Order cannot be Cancel. No Amount Refundable.</label>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="padding:4px">
+				&nbsp;&nbsp;<label style="color: red;font-weight: bold">If You Cancel Order After 72 hrs of Order Confirmation No Amount Will be refunded.</label>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4" style="padding:4px">
+				&nbsp;&nbsp;<label style="color: red;font-weight: bold">Please Read Our Terms & Conditions</label>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<hr>
+<p align="center"> Thank you </p>
+
+
+{% endif %}
+{% endblock %}

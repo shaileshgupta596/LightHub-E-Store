@@ -1,0 +1,243 @@
+{% extends "commen_nav.html" %}
+{% block body1 %}
+	<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+ <!--Content -->
+<div class="row shadow" style="margin:10px">
+
+<div class="col-sm-5">
+  <hr>
+<table class="table table-bordered shadow-sm" align="center" style="text-align: center;width: 90%">
+  <thead>
+    <tr>
+      <th colspan="2">Personal Info</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Customer Name</th>
+      <td  id="cname"></td>
+    </tr>
+    <tr>
+      <th>Email:</th>
+      <td  id="email">hi</td>
+    </tr>
+    <tr>
+      <th>Contact No:</th>
+      <td id="phonenumber">hi</td>
+    </tr>
+
+    <tr style="text-align: center" >
+              <th colspan="2" style="font-size: 15px">Address</th>          
+            </tr>
+            <tr>
+              <td ><b>Room No/Building</b></td>
+              <td  id="uadd1" >Not Updated</td>
+            </tr>
+            <tr>
+              <td ><b>Locality/Area/Road</b></td>
+              <td colspan="3" id="uadd2">Not Updated</td>
+            </tr>
+            <tr>
+              <td ><b>City/Village Name</b></td>
+              <td  id="uadd3">Not Updated</td>
+            </tr>
+            <tr>
+              <td ><b>District</b></td>
+              <td  id="uadd4">Not Updated</td>
+            </tr>
+            <tr>
+              <td ><b>State/Pincode</b></td>
+              <td  id="uadd5">Not Updated</td>
+            </tr>
+            
+  </tbody>
+</table>
+</div>
+
+
+<div class="col-sm-7">
+{% if "LightHUb_User_ShoopingCart" in session %}
+
+<table class="table " align="center" style="text-align: center">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="6" >Product Details <img src="../static/images/list.png" style="width:30px;height: 30px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Item</th>
+      <th scope="col">ItemSpecification</th>
+      <th scope="col" colspan="2">Item Price/Item Count</th>
+      <!--<th scope="col">Item Remove</th>-->
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;">
+  	{% for key,elem in session['LightHUb_User_ShoopingCart'].items() %}
+  	{% if key != "tp" %}
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="{{elem['ProductImageAddress']}}" style="width:50px;height: 50px;border-radius: 50%"><br>
+      	 <b>{{elem['ProductName']}}</b>
+      </td>
+      <td>{{elem['ProductSpecification']}}<br>{{elem['ProductBrand']}}<br>{{elem['ProductType']}}</td>
+      <td colspan="2" style="font-weight: bold">Rs. <label style="font-size:11px;color:gray">
+        <s>{{elem['ProductPrice']}}</s></label>
+        <label>{{elem['DiscountPrice']}} * {{elem['Count']}}</label>
+        <br>
+        <p style="font-size:12px"><span style="color:orange">({{elem['DiscountRate']}}%)</span>
+        <span style="color:green"> Save Rs.{{elem['ProductPrice']-elem['DiscountPrice']}}</span> </p>
+      </td>
+      
+      <td><b> Rs.{{ elem['Count'] * elem['DiscountPrice']}} .00</b></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    <hr>
+    <tr>
+    	<td colspan="3"></td>
+    	<td colspan="3"><b>Final Amount : Rs.{{session['LightHUb_User_ShoopingCart']['tp']}}.00 </b></td>
+    </tr>
+    
+
+  </tbody>
+</table>
+
+<hr>
+<div class="row justify-content-center">
+  <form onsubmit="return confirm(' GO Ahead & Place your Order?');" action="{{url_for('finalpage')}}">
+  <div class="form-group form-check">
+    <input type="radio" class="form-check-input" id="exampleCheck1" name="paymethod" required data-toggle="modal" data-target="#exampleModalCenter">
+    <label class="form-check-label" for="exampleCheck1"><b> Pay On Delivery</b></label>
+  </div>
+  <div class="form-group form-check">
+    <input type="radio" class="form-check-input" disabled id="exampleCheck1" name="paymethod" required>
+    <label class="form-check-label" for="exampleCheck1"><b> Pay Now</b></label>
+    <div class="alert alert-danger alert-dismissible" id="showmessage" role="alert" style="text-align: center;">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><b>
+      "Online Payment Service Currently Unavailable in Out Site."</b>
+    </div>
+  </div>
+
+  <button  type="submit" class="btn btn-primary btn-lg"   style="width:100%;margin: 15px;margin-bottom: 30px"><b>Place Order</b></button>
+</form>
+  </div>
+
+
+
+</div><!-- col-sm-6 end-->
+
+
+</div><!-- row end-->
+
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5> All details are correct?</h5><br>
+        <h6>PLEASE NOTE</h6>
+        <hr>
+        <ol style="font-weight: bold;">
+          <li style="color: green;margin: 10px;">If you select pay on delivery then your order will be Confirm by our management team via phone call on your register Number .</li>
+          <li style="color: green;margin: 10px;">
+            In order to Confirm your "Product Order" you need to pay 25% of your total Amount . We will Provide Acknowledgement for Adavance Payment.
+          </li>
+          <li style="color: red;margin: 10px;">
+            After (Confirmation/25% payment) of Order You are allowed to cancel "Product Order" within 72 hrs of Order Confirmation then Only total amount will be Refunded. 
+          </li>
+          <li style="color:red;margin: 10px;">
+            If you cancel Order After 72hrs of Order (Confirmation/25% payment) No Amount Will Be Refunded.
+          </li>
+          <li>
+            For More Read <a href="{{url_for('TermsandConditionandPrivacyPolicy')}}">Terms And Condition .</a>
+          </li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><b>Close</b></button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+	function ItemCount(x) {
+		// body...
+		//console.log(x.value);
+		  var url=localStorage.getItem("url");
+          $.post(url+"update_product_count_in_session",{pid:x.value,ProductId:x.getAttribute('number')},"json");
+          location.reload();
+          //console.log(document.getElementsByClassName('Count_of_an_Item')[0].value+document.getElementsByClassName('Count_of_an_Item')[1].value+document.getElementsByClassName('Count_of_an_Item')[2].value);
+	}
+	function address_work(){
+		var username="{{username}}"
+		console.log(username)
+	}
+	address_work();
+
+</script>
+<script type="text/javascript">
+          function SeeDetails(){
+            var url=localStorage.getItem("url");
+          //console.log('kjebjbfw;jebf;lwbef;lw');
+          val1='{{username}}'
+          $.post(url+"get_individual_customer_detail",{username:val1},
+                
+                function(response){
+                  
+                  //check if what response is 
+                  console.log(response);
+                  address=response['Info']['Address']
+                  if (address == null){
+                  
+
+                  }
+                  else{
+                  address=address.split('@')
+                  //console.log(address)
+                  document.getElementById('uadd1').innerHTML=address[0];
+                  document.getElementById('uadd2').innerHTML=address[1];
+                  document.getElementById('uadd3').innerHTML=address[2];
+                  document.getElementById('uadd4').innerHTML=address[3];
+                  document.getElementById('uadd5').innerHTML=address[4];
+             	 }
+
+                  //document.getElementById('customername').innerHTML=response['Info']['CustomerName'];
+                  document.getElementById('email').innerHTML=response['Info']['Username'];
+                  document.getElementById('phonenumber').innerHTML=response['Info']['PhoneNumber'];
+                  document.getElementById('cname').innerHTML = response['Info']['CustomerName'];
+                  
+                  
+                  
+
+                 
+                  
+          
+              },"json");
+
+        }
+        SeeDetails();
+    </script>
+
+
+
+
+
+  {% endif %}
+{% endblock %}

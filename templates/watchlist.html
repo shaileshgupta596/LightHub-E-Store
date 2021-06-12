@@ -1,0 +1,58 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+
+
+<div class="row shadow p-3 mb-5 bg-white rounded" style="margin-top: 20px;">
+  
+<div class="row justify-content-center" style="margin: 5px;width: 100%;color:red">
+  <div class="col-sm-11">
+    <h4  align="center">YOUR WATCH LIST</h4><br> 
+  </div>
+  <div class="col-sm-1">
+
+    <a href="{{url_for('delete_watchlist')}}"><img src="static/images/delete.png" align="center" class="d-flex justify-content-end" style="width:40px;height: 40px;border-radius:50%;"><b>Delete</b></a>
+  </div>
+</div>
+
+<div class="row bg-white" style="width: 100%" id="Watchlist">
+ 
+ <!--Content -->
+
+</div>
+
+</div>
+
+
+
+<script type="text/javascript">
+function Lights() {
+  var url=localStorage.getItem("url");
+  var PopularLights = document.getElementById('Watchlist');
+  var save=0
+  $.post(url+"get_watchlist",{},
+                
+                function(response){
+                  //check  what response is 
+                  //console.log(response)
+                  var info="";
+                    for(var i=0;i<response['Info'].length;i++){
+                      save=response['Info'][i]['ProductPrice']-response['Info'][i]['DiscountPrice'];
+
+                        info=info+'<div class="col-sm-3 rounded " style="margin-top: 10px"><div class="Product_box shadow-sm" onmouseover="bigshadow(this)" onmouseout="normalshadow(this)" style="width:250px; "><div class="product_image"><a href="#"><img src='+response['Info'][i]['ProductImageAddress']+' class="shadow-sm" style="width:250px;height: 200px;"></a></div><div class="product_information shadow"><div class="row" style=""><div class="col-sm" style="font-size: 14px;margin-left:15px"><p> <b>'+response['Info'][i]['ProductName']+'</b><br>'+response['Info'][i]['ProductType']+',led,'+response['Info'][i]['ProductType1']+','+response['Info'][i]['ProductSpecification']+'<br><b>Rs.<s style="color:gray;font-size:10px">'+response['Info'][i]['ProductPrice']+' </s>'+response['Info'][i]['DiscountPrice']+'<br><lable style="color:orange;font-size:12px">('+response['Info'][i]['DiscountRate']+'%)<label style="color:green"> Save Rs.'+save+'           </label></label></b></p></div></div><div class="row"><div class="col-sm" style="height: 50px;margin-right: 5px"><form method="post"><input type="hidden" name="ProductName" value='+response['Info'][i]['ProductId']+'><button class="btn btn-outline-success btn-sm" style="width:100%;"><b>See</b></button></form></div></div></div></div></div>'
+                      }
+                      PopularLights.innerHTML=info;
+          
+              },"json");
+}
+
+Lights();
+function bigshadow(x){
+  x.setAttribute("class","Product_box shadow-lg");
+}
+
+function normalshadow(x){
+  x.setAttribute("class","Product_box shadow-sm");
+}
+</script>
+
+{% endblock %}

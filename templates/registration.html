@@ -1,0 +1,108 @@
+{% extends "commen_nav.html" %}
+{% block body %}
+<style>
+	#Register_box{
+
+	}
+	label{
+		font-size: 12px;
+	}
+</style>
+
+
+
+	<div class="row justify-content-center" style="margin-top:5px" id="Register_box">
+		<div class="col-sm-6 shadow p-3 mb-5 bg-white rounded justify-content-md-center" >
+			<div class="image d-flex justify-content-center">
+      <img align="center" src="{{url_for('static',filename='images/registericon.jpg')}}" style="width: 70px;height: 70px;border-radius: 50%;">
+    </div>
+
+	<form method="post" action="">
+	<h5 align="center">REGISTRATION</h5>
+
+<div class="row">
+  <div class="col-sm form-group">	
+    <label for="customername">Your Name</label>
+    <input type="text" class="form-control form-control-sm" id="customername" aria-describedby="emailHelp" name="customername" required="required">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>  
+  </div> 
+</div>
+<div class="row">
+  <div class="col-sm form-group">	
+    <label for="exampleInputEmail1">Email address</label>
+    <input type="email" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required="required">
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>  
+  </div> 
+  <div class=" col-sm form-group">
+    <label for="exampleInputPhone">Phone Number</label>
+    <input type="tel" class="form-control form-control-sm" id="exampleInputPhone" pattern="[0-9]{10}" name="phone_number" required="required">
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm form-group">
+    <label for="exampleInputPassword1">Password (Atleast 8 Character)</label>
+    <input type="password" class="form-control form-control-sm" id="exampleInputPassword1" name="password"   onkeyup="CheckPassword()">
+    <p id="pass_validation" style="color: red"></p>
+  </div>
+  <div class="col-sm form-group">
+    <label for="exampleInputPassword2">Confirm Password</label>
+    <input type="password" class="form-control form-control-sm" id="exampleInputPassword2" name="cnf_password" onkeyup="password_match()" required="required">
+    <p id="pass_not_match" style="color: red"></p>
+  </div>
+ </div>
+  <div class="form-group form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="termscondition" required>
+    <label class="form-check-label" for="exampleCheck1"><a href="{{url_for('TermsandConditionandPrivacyPolicy')}}">I agree to terms and condition</a></label>
+  </div>
+  <button type="submit" style="width:100%;margin-bottom: 15px;" id="reg_btn" class="btn btn-danger" disabled>Register</button>
+</form>
+
+
+</div>
+{{error}}
+</div>
+
+<div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+      "Please fill above Detail Correctly for Authentication and Better Service"
+</div>
+
+<script>
+	function password_match() {
+		var pass1=document.getElementById('exampleInputPassword1').value;
+		var pass2=document.getElementById('exampleInputPassword2').value;
+		var pass_not_match=document.getElementById('pass_not_match');
+
+		if(pass1!=pass2){
+			pass_not_match.innerHTML="Password Not Match."
+		}
+		else{
+			pass_not_match.innerHTML=""
+		}
+
+	}
+	
+	function CheckPassword() 
+	{ 
+	var pass1=document.getElementById('exampleInputPassword1');
+	var pass_validation=document.getElementById('pass_validation');
+
+	var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+		if(pass1.value.match(decimal)) 
+		{ 
+		pass_validation.innerHTML="";
+		document.getElementById('reg_btn').disabled=false;
+		}
+		else
+		{ 
+		pass_validation.innerHTML="Must contain Atleast 1(upper,lower,Number,special) character";
+
+		}
+} 
+</script>
+
+
+
+
+{% endblock %}
+	

@@ -1,0 +1,235 @@
+{% extends "admin/admincontrolnav.html" %}
+{% block body%}
+
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-4 shadow p-3 mb-5 bg-white rounded">
+      <h3 align="center">Orders</h3>
+  
+    </div>
+</div>
+<style type="text/css">
+ table {
+    counter-reset: tableCount;     
+}
+.counterCell:before {              
+    content: counter(tableCount); 
+    counter-increment: tableCount; 
+}</style>
+<div class="row">
+<table class="table shadow " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="7" >Orders <img src="../static/images/list.png" style="width:50px;height: 50px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">OrderID</th>
+      <th scope="col">Cancel Order</th>
+      <th scope="col">Order Date</th>
+      <th scope="col" colspan="3">Status</th>
+      <th scope="col">Complete</th>
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;" id="yourorderstable">
+    
+    
+  </tbody>
+</table>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">VLH293846928639236</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+    <table align="center" class="table table-bordered">
+      <thead>
+        <tr align="center">
+          <th scope="col" colspan="5" >Customer Details <img src="../static/images/list.png" style="width:30px;height: 30px;border-radius: 50%"></th>     
+        </tr>   
+      </thead>
+      <tbody id="customer_details">
+        <tr>
+          <th>Name: shailesh gupta</th>
+          <th rowspan="3">Address: 8976378042</th>
+          
+        </tr>
+        <tr><th>Contact No: 8976378042</th></tr>
+        <tr><th>Email: shaileshgupta596@gmail.com</th>
+        </tr></tr>
+      </tbody>
+    </table>
+
+   <table class="table " style="width:100%;">
+  <thead>
+    <tr align="center">
+      <th scope="col" colspan="5" >Order Details <img src="../static/images/list.png" style="width:30px;height: 30px;border-radius: 50%"></th>     
+    </tr>   
+    <tr align="center">
+      <th scope="col">Sr.No</th>
+      <th scope="col">Product</th>
+      <th scope="col">Price & Spec</th>
+      <th scope="col">ProductCount</th>
+      <th scope="col">Total Price</th>
+      
+    </tr>
+  </thead>
+  <tbody style="font-size: 14px;" id="Indivial_order_detailstable">
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="../static/images/avatar.png" style="width:50px;height: 50px;border-radius: 50%"><br> Philips</td>
+      <td><b>100Rs</b><br>kj jkbks kjbajkab</td>
+      <td> 2</td>
+      <td> 200 Rs</td>
+    </tr>
+    <tr align="center">
+      <th scope="col" class="counterCell"></th>
+      <td><img src="../static/images/avatar.png" style="width:50px;height: 50px;border-radius: 50%"><br> Philips</td>
+      <td><b>100Rs</b><br>kj jkbks kjbajkab</td>
+      <td> 2</td>
+      <td> 200 Rs</td>
+    </tr>
+    
+
+    
+  </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- for Compted -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 align="center">Are you sure you have complted this order?</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><b>Close</b></button>
+        <form method="post" onsubmit="return confirm(' GO Ahead & complted Status');" action="{{url_for('OrderFullfilled')}}">
+          <input type="text" name="orderid" id="orderid" value='' hidden>
+        <button type="submit" class="btn btn-success btn-sm"><b>Completed</b></button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+  function customer_orders() {
+    var url=localStorage.getItem("url");
+    //console.log(username);
+    var yourorderstable = document.getElementById('yourorderstable');
+    $.post(url+"admin_customer_orders",{},
+                
+                function(response){
+                  console.log(response);
+                  var Info=""
+                  for(var i=0;i<response['Info'].length;i++){
+                    hi="timeapss"
+               
+                    Info=Info+ '<tr align="center"><th scope="col" class="counterCell"></th><th style="font-weight: bolder;font-size: 15px" data-toggle="modal" data-target=".bd-example-modal-lg" orderid='+response['Info'][i]['OrderID']+' onclick="orderopenmodal(this)" class="btn ">'+response['Info'][i]['OrderID']+'</th><td>     <form  method="post" action="{{url_for("admin_cancel_order")}}"><input type="text" value='+response['Info'][i]['OrderID']+' name="OrderID" hidden><input type="text" name="username" value='+response['Info'][i]['username']+' hidden><button type="submit" class="btn btn-danger btn-sm"><b>Cancel Orders</b></button></form></td><td>'+response['Info'][i]['OrderDate']+'</td><td colspan="3"><select class="form-control form-control-sm" orderid='+response['Info'][i]['OrderID']+' onchange="update_order_status(this);" name="ProductType"><option selected disabled>Choose...</option><option value="OrderConfirmed">Order Confirmation</option><option value="OrderPack">Order Pack</option><option value="OrderDispatch">Order Dispatch</option><option value="OrderDeliverd">Order Deliverd</option></select><br><p  style="color:green;font-weight:bolder;">'+response['Info'][i]['OrderConfirmation']+'</p></td>'
+                    if (response['Info'][i]['OrderConfirmation'] == "OrderDeliverd"){
+                    Info=Info+'<td><button class="btn btn-success btn-sm" data-toggle="modal" data-target="#exampleModal" orderid='+response['Info'][i]['OrderID']+' onclick="Completedorder(this)"><b>Completed</b></button></td></tr>'}
+                    else{
+                       Info=Info+'<td><button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#exampleModal" orderid='+response['Info'][i]['OrderID']+' onclick="Completedorder(this)" disabled><b>Completed</b></button></td></tr>'
+                    }
+                  
+                }//for loop end
+
+                  yourorderstable.innerHTML=Info;
+                 
+          
+              },"json");
+
+
+  }
+  customer_orders();
+</script>
+<script type="text/javascript">
+  function update_order_status(x){
+
+    var value=confirm(message='Are you sure you want to'+x.value+' of '+x.getAttribute('orderid')+'?')
+    if (value == true){
+    $.post(url+"update_customer_order_status",{status:x.value,OrderID:x.getAttribute('orderid')},
+                
+                function(response){
+                 
+                 if(response['Info']==1){
+                  customer_orders();
+                 }
+              },"json");
+  }//endif
+  }
+</script>
+
+<script type="text/javascript">
+  function orderopenmodal(x) {
+    OrderID=x.getAttribute('orderid');
+    var url=localStorage.getItem("url");
+    var Indivial_order_detailstable = document.getElementById('Indivial_order_detailstable');
+    document.getElementById('exampleModalLabel').innerHTML=OrderID;
+    $.post(url+"aIndivial_order_details",{OrderID:OrderID},
+                
+                function(response){
+                  console.log(response);
+                  //personal info inserting
+                  document.getElementById('customer_details').innerHTML='<tr><th>Name: '+response["personal_info"]['CustomerName']+'</th><th rowspan="3">Address: <br>Room No/Building :'+response["personal_info"]['add1']+'<br>Locality/Area/Road :'+response["personal_info"]['add2']+'<br>City/Village :'+response["personal_info"]['add3']+'<br>Name District  :'+response["personal_info"]['add4']+'<br>State/Pincode :'+response["personal_info"]['add5']+'</th></tr><tr><th>Contact No: '+response["personal_info"]['PhoneNumber']+'</th></tr><tr><th>Email: '+response["personal_info"]['username']+'</th></tr></tr>';
+
+
+
+
+
+                  //order list inserting
+                  var Info="";
+                  var final_amount=0;
+                  var save=0;
+                  for(var i=0;i<response['Info'].length;i++){
+
+                    save=response['Info'][i]['ProductPrice']-response['Info'][i]['DiscountPrice'];
+
+                  Info=Info + '<tr align="center"><th scope="col" class="counterCell"></th><td><img src="'+response['Info'][i]['ProductImageAddress']+'" style="width:50px;height: 50px;border-radius: 50%"><br><b>'+response['Info'][i]['ProductName']+'</b></td><td><b>Rs.<s style="color:gray;font-size:11px;">'+response['Info'][i]['ProductPrice']+'</s>'+response['Info'][i]['DiscountPrice']+'</b><p style="font-size:12px;"><b><span style="color:orange">('+response['Info'][i]['DiscountRate']+'%)</span><span style="color:green">Saved Rs.'+save+'</span></b></p>'+response['Info'][i]['ProductSpecification']+'</td> <td>'+response['Info'][i]['pcount']+'</td><td><b>Rs. '+response['Info'][i]['pcount']*response['Info'][i]['DiscountPrice']+'</b></td></tr>';
+
+                  final_amount=final_amount+(response['Info'][i]['pcount']*response['Info'][i]['DiscountPrice'])
+                }
+                Info=Info+'<tr><td colspan="4"></td><th align="center">final Amount: Rs.'+final_amount+'.00 </th></tr>'
+                  Indivial_order_detailstable.innerHTML=Info;
+
+
+
+
+          
+              },"json");
+
+    
+  }
+</script>
+<script type="text/javascript">
+  function Completedorder(x){
+    document.getElementById('orderid').setAttribute('value',x.getAttribute('orderid'));
+    document.getElementById('exampleModalLabel1').innerHTML=x.getAttribute('orderid');
+  }
+</script>
+
+{% endblock %}
